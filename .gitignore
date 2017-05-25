@@ -1,10 +1,12 @@
-.DS_Store
+﻿.DS_Store
 .idea
 *.ai
 *.log
 *.pdf
 *.psd
+*.config
 *.sublime*
+.vs/
 build/
 node_modules/
 Thumbs.db
