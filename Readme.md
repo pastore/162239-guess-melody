@@ -1,7 +1,7 @@
-# Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
+﻿# Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Павел Грудев](https://up.htmlacademy.ru/ecmascript/2/user/162239).
-* Наставник: `Неизвестно`.
+* Наставник: `Игорь Шевченко`.
 
 ---
 
