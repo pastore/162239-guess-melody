@@ -1,6 +1,9 @@
-﻿import createElementFromTemplate from './createElementFromTemplate';
+import createElementFromTemplate from './createElementFromTemplate';
+import showScreen from './showScreen';
+import screenResultSuccess from './main--result-success';
+import screenResultFail from './main--result-fail';
 
-const screenLevelGenre = createElementFromTemplate(`  <section class="main main--level main--level-genre">
+const screenLevelGenre = createElementFromTemplate(`<section class="main main--level main--level-genre">
   <h2 class="title">Выберите инди-рок треки</h2>
   <form class="genre">
     <div class="genre-answer">
@@ -30,5 +33,28 @@ const screenLevelGenre = createElementFromTemplate(`  <section class="main main-
     <button class="genre-answer-send" type="submit">Ответить</button>
   </form>
   </section>`);
+
+const sendAnswerButton = screenLevelGenre.querySelector(`.genre-answer-send`);
+sendAnswerButton.disabled = true;
+
+const screenResults = [screenResultSuccess, screenResultFail];
+const randomScreenResult = screenResults[Math.floor(Math.random() * screenResults.length)];
+
+const checkedAnswers = screenLevelGenre.querySelectorAll(`input[name='answer']`);
+[...checkedAnswers].forEach((item) => {
+  item.addEventListener(`click`, () => {
+    sendAnswerButton.disabled = ![...checkedAnswers].some(function (input) {
+      return input.checked;
+    });
+  });
+});
+
+sendAnswerButton.addEventListener(`click`, (e) => {
+  e.preventDefault();
+  [...checkedAnswers].forEach((item) => {
+    item.checked = false;
+  });
+  showScreen(randomScreenResult);
+});
 
 export default screenLevelGenre;

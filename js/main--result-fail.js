@@ -1,4 +1,6 @@
-﻿import createElementFromTemplate from './createElementFromTemplate';
+import createElementFromTemplate from './createElementFromTemplate';
+import screenWelcome from './main--welcome';
+import showScreen from './showScreen';
 
 const screenResultFail = createElementFromTemplate(`<section class="main main--result">
   <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
@@ -8,4 +10,10 @@ const screenResultFail = createElementFromTemplate(`<section class="main main--r
   <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
   </section>`);
 
+const playAgainButton = screenResultFail.querySelector(`.main-replay`);
+playAgainButton.addEventListener(`click`, function () {
+  showScreen(screenWelcome);
+});
+
 export default screenResultFail;
+

@@ -1,4 +1,6 @@
-﻿import createElementFromTemplate from './createElementFromTemplate';
+import createElementFromTemplate from './createElementFromTemplate';
+import showScreen from './showScreen';
+import screenLevelArtist from './main--level-artist';
 
 const screenWelcome = createElementFromTemplate(`<section class="main main--welcome">
   <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
@@ -9,6 +11,12 @@ const screenWelcome = createElementFromTemplate(`<section class="main main--welc
     максимальное количество правильных ответов.<br>
     Удачи!
   </p>
-  </section>`); 
+  </section>`);
+
+const playButton = screenWelcome.querySelector(`.main-play`);
+
+playButton.addEventListener(`click`, () => {
+  showScreen(screenLevelArtist);
+});
 
 export default screenWelcome;

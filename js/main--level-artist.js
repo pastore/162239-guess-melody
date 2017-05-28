@@ -1,4 +1,6 @@
-﻿import createElementFromTemplate from './createElementFromTemplate';
+import createElementFromTemplate from './createElementFromTemplate';
+import showScreen from './showScreen';
+import screenLevelGenre from './main--level-genre';
 
 const screenLevelArtist = createElementFromTemplate(`<section class="main main--level main--level-artist">
   <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
@@ -46,5 +48,13 @@ const screenLevelArtist = createElementFromTemplate(`<section class="main main--
   </form>
   </div>
   </section>`);
+
+const answerButtons = screenLevelArtist.querySelectorAll(`.main-answer`);
+
+answerButtons.forEach(function (item) {
+  item.addEventListener(`click`, function () {
+    showScreen(screenLevelGenre);
+  });
+});
 
 export default screenLevelArtist;
