@@ -1,7 +1,7 @@
 const template = document.querySelector(`#templates`);
-let screens = template.content.querySelectorAll(`.main`);
+const screens = template.content.querySelectorAll(`.main`);
 const arrayOrders = [4, 3, 0, 1, 2];
-let orderedScreens = [];
+const orderedScreens = [];
 [...screens].forEach((screen, indexScreen) => {
   const tempIndex = arrayOrders.indexOf(indexScreen);
   orderedScreens[tempIndex] = screen;
