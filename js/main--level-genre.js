@@ -38,7 +38,6 @@ const sendAnswerButton = screenLevelGenre.querySelector(`.genre-answer-send`);
 sendAnswerButton.disabled = true;
 
 const screenResults = [screenResultSuccess, screenResultFail];
-const randomScreenResult = screenResults[Math.floor(Math.random() * screenResults.length)];
 
 const checkedAnswers = screenLevelGenre.querySelectorAll(`input[name='answer']`);
 [...checkedAnswers].forEach((item) => {
@@ -54,6 +53,8 @@ sendAnswerButton.addEventListener(`click`, (e) => {
   [...checkedAnswers].forEach((item) => {
     item.checked = false;
   });
+  sendAnswerButton.disabled = true;
+  const randomScreenResult = screenResults[Math.floor(Math.random() * screenResults.length)];
   showScreen(randomScreenResult);
 });
 
