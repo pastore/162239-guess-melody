@@ -1,6 +1,7 @@
-import screenWelcome from './main--welcome';
-import showScreen from './showScreen';
+import welcomeTemplate from './templates/start/welcomeTemplate';
+import renderScreen from './utils/renderScreen';
+import {initialState} from './data/data';
 
-showScreen(screenWelcome);
+renderScreen(welcomeTemplate, initialState);
 
 

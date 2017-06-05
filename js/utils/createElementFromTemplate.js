@@ -1,7 +1,7 @@
 const createElementFromTemplate = (template) => {
-  const element = document.createElement(`div`);
+  const element = document.createElement(`template`);
   element.innerHTML = template;
-  return element.firstChild;
+  return element.content;
 };
 
 export default createElementFromTemplate;
