@@ -8,10 +8,10 @@ import genreLevelTemplate from '../templates/level/genreLevelTemplate';
 import successResultTemplate from '../templates/result/successResultTemplate';
 import failResultTemplate from '../templates/result/failResultTemplate';
 import welcomeTemplate from '../templates/start/welcomeTemplate';
-import headerTemplate from '../templates/headerTemplate';
+import headerTemplate from '../templates/parts/headerTemplate';
 
 const sectionMain = document.querySelector(`section.main`);
-const renderScreen = (template, state) => {
+const renderScreen = (template = welcomeTemplate, state = initialState) => {
 
   sectionMain.innerHTML = ``;
   let sectionHeader = createElementFromTemplate(headerTemplate(state));

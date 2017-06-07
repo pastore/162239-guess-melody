@@ -1,3 +1,5 @@
+import createArtistAnswers from '../../utils/createArtistAnswers';
+
 const artistLevelTemplate = (level) => {
   return `<section class="main main--level main--level-artist">
   <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
@@ -20,14 +22,7 @@ const artistLevelTemplate = (level) => {
   <div class="player-wrapper" data-right-answer="${level.rightAnswer.id}"></div>
   <form class="main-list">
 
-  ${ level.answers.map((answer) => {
-    return `<div class="main-answer-wrapper">
-    <input class="main-answer-r" type="radio" id="a-${answer.id}" name="answer" value="${answer.id}" />
-    <label class="main-answer" for="a-${answer.id}">
-    <img class="main-answer-preview" src="">
-    ${answer.author}
-    </div>`;
-  }).join(``)}
+  ${createArtistAnswers(level)}
 
   </form>
   </div>

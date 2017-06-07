@@ -12,6 +12,7 @@ Object.freeze(initialState);
 const levels = {};
 levels[levelType.Artist] = createLevelType(levelType.Artist);
 levels[levelType.Genre] = createLevelType(levelType.Genre);
+
 export {initialState, levels};
 
 
