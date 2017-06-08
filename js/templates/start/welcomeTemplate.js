@@ -1,4 +1,5 @@
-import logoTemplate from '../parts/logoTemplate';
+﻿import logoTemplate from '../parts/logoTemplate';
+import renderScreen from '../../utils/renderScreen';
 
 const welcomeTemplate = (level) => `<section class="main main--welcome">
   ${logoTemplate()}
@@ -12,3 +13,14 @@ const welcomeTemplate = (level) => `<section class="main main--welcome">
   </section>`;
 
 export default welcomeTemplate;
+
+export const welcomeHandler = function (template, state) {
+    const playButton = document.querySelector(`.main-play`);
+    playButton.addEventListener(`click`, startGame.bind(playButton, template, state));
+};
+
+const startGame = function (...args) {
+    const [template, state] = args;
+    renderScreen(template, Object.assign({}, state, {}));
+    this.removeEventListener(`click`, startGame.bind(this, template, state));
+};

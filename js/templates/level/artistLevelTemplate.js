@@ -1,4 +1,4 @@
-import createArtistAnswers from '../../utils/createArtistAnswers';
+﻿import createArtistAnswers from '../../utils/createArtistAnswers';
 
 const artistLevelTemplate = (level) => {
   return `<section class="main main--level main--level-artist">

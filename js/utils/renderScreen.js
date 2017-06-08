@@ -7,7 +7,7 @@ import artistLevelTemplate from '../templates/level/artistLevelTemplate';
 import genreLevelTemplate from '../templates/level/genreLevelTemplate';
 import successResultTemplate from '../templates/result/successResultTemplate';
 import failResultTemplate from '../templates/result/failResultTemplate';
-import welcomeTemplate from '../templates/start/welcomeTemplate';
+import welcomeTemplate, {welcomeHandler} from '../templates/start/welcomeTemplate';
 import headerTemplate from '../templates/parts/headerTemplate';
 
 const sectionMain = document.querySelector(`section.main`);
@@ -22,12 +22,10 @@ const renderScreen = (template = welcomeTemplate, state = initialState) => {
 
   switch (template.name) {
     case templateType.Welcome:
-      const playButton = sectionMain.querySelector(`.main-play`);
-      playButton.addEventListener(`click`, () => {
-        renderScreen(artistLevelTemplate, Object.assign({}, state, {}));
-      });
+      welcomeHandler(artistLevelTemplate, state);
       break;
     case templateType.ArtistLevel:
+
       const answerButtons = sectionMain.querySelectorAll(`.main-answer-r`);
       const rightAnswer = sectionMain.querySelector(`[data-right-answer]`);
 
