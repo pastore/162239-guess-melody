@@ -3,8 +3,9 @@ const createArtistAnswers = (level) => {
     return `<div class="main-answer-wrapper">
     <input class="main-answer-r" type="radio" id="a-${answer.id}" name="answer" value="${answer.id}" />
     <label class="main-answer" for="a-${answer.id}">
-    <img class="main-answer-preview" src="">
+    <img class="main-answer-preview" src="" data-answer="${answer.id}">
     ${answer.author}
+    </label>
     </div>`;
   }).join(``);
 };

@@ -3,7 +3,7 @@ import levelType from '../data/types/levelType';
 import templateType from '../data/types/templateType';
 import {levels, initialState} from '../data/data';
 import createLevelType from '../data/createLevelType';
-import artistLevelTemplate from '../templates/level/artistLevelTemplate';
+import artistLevelTemplate, {artistLevelHandler} from '../templates/level/artistLevelTemplate';
 import genreLevelTemplate from '../templates/level/genreLevelTemplate';
 import successResultTemplate from '../templates/result/successResultTemplate';
 import failResultTemplate from '../templates/result/failResultTemplate';
@@ -25,27 +25,7 @@ const renderScreen = (template = welcomeTemplate, state = initialState) => {
       welcomeHandler(artistLevelTemplate, state);
       break;
     case templateType.ArtistLevel:
-
-      const answerButtons = sectionMain.querySelectorAll(`.main-answer-r`);
-      const rightAnswer = sectionMain.querySelector(`[data-right-answer]`);
-
-      window.initializePlayer(rightAnswer, levels[state.level].rightAnswer.path);
-
-      answerButtons.forEach(function (item) {
-        item.addEventListener(`click`, function (evt) {
-          const itemValue = evt.target.value;
-          if (itemValue === rightAnswer.dataset.rightAnswer) {
-            renderScreen(genreLevelTemplate, Object.assign({}, state, {level: levelType.Genre}));
-          } else {
-            state.lives--;
-            if (state.lives === 0) {
-              renderScreen(failResultTemplate, state);
-            } else {
-              sectionMain.replaceChild(createElementFromTemplate(headerTemplate(state)), sectionMain.firstChild);
-            }
-          }
-        });
-      });
+      artistLevelHandler(genreLevelTemplate, state, sectionMain);
       break;
     case templateType.GenreLevel:
       const sendAnswerButton = sectionMain.querySelector(`.genre-answer-send`);
