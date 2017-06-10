@@ -1,6 +1,5 @@
-import screenWelcome from './main--welcome';
-import showScreen from './showScreen';
+import renderScreen from './utils/renderScreen';
 
-showScreen(screenWelcome);
+renderScreen();
 
 
