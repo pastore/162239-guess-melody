@@ -1,8 +1,9 @@
-parserOptions:
+﻿parserOptions:
   sourceType: 'module'
 
 env:
   es6: true
   browser: true
+  mocha: true
 
 extends: 'htmlacademy/es6'
