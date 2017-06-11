@@ -1,7 +1,7 @@
-import createElementFromTemplate from './createElementFromTemplate';
+﻿import createElementFromTemplate from './createElementFromTemplate';
 import levelType from '../data/types/levelType';
 import templateType from '../data/types/templateType';
-import {levels, initialState} from '../data/data';
+import {levels, initialState, setLevels, setLives, addPassedLevel, COUNT_GAME_LEVELS} from '../data/data';
 import createLevelType from '../data/createLevelType';
 import artistLevelTemplate from '../templates/level/artistLevelTemplate';
 import genreLevelTemplate from '../templates/level/genreLevelTemplate';
@@ -18,16 +18,19 @@ const renderScreen = (template = welcomeTemplate, state = initialState) => {
   if (template.name === templateType.ArtistLevel || template.name === templateType.GenreLevel) {
     sectionMain.appendChild(sectionHeader);
   }
-  sectionMain.appendChild(createElementFromTemplate(template(template.name === templateType.Welcome ? null : levels[state.level])));
 
   switch (template.name) {
     case templateType.Welcome:
+      sectionMain.appendChild(createElementFromTemplate(template(null)));
+
       const playButton = document.querySelector(`.main-play`);
       playButton.addEventListener(`click`, () => {
         renderScreen(artistLevelTemplate, Object.assign({}, state, {}));
       });
       break;
     case templateType.ArtistLevel:
+      sectionMain.appendChild(createElementFromTemplate(template(levels[state.level])));
+
       const answerButtonsWrapper = sectionMain.querySelector(`.main-list`);
       const rightAnswer = sectionMain.querySelector(`[data-right-answer]`);
       window.initializePlayer(rightAnswer, levels[state.level].rightAnswer.path);
@@ -36,19 +39,28 @@ const renderScreen = (template = welcomeTemplate, state = initialState) => {
         const itemValue = event.target.dataset.answer;
         if (event.target.tagName.toLowerCase() === `img`) {
           if (itemValue === rightAnswer.dataset.rightAnswer) {
-            renderScreen(genreLevelTemplate, Object.assign({}, state, {level: levelType.Genre}));
+            state = addPassedLevel(state);
+            if (state.countRequiredLevels == COUNT_GAME_LEVELS) {
+                renderScreen(successResultTemplate, state);
+            }
+            else {
+                renderScreen(genreLevelTemplate, setLevels(state, levelType.Genre));
+            }
           } else {
-            state.lives--;
+            let tempLives = --state.lives;
             if (state.lives === 0) {
-              renderScreen(failResultTemplate, state);
+            // renderScreen(failResultTemplate, setLives(state, state.lives--));
+              renderScreen(successResultTemplate, setLives(state, tempLives));
             } else {
-              sectionMain.replaceChild(createElementFromTemplate(headerTemplate(state)), sectionMain.firstChild);
+              sectionMain.replaceChild(createElementFromTemplate(headerTemplate(setLives(state, tempLives))), sectionMain.firstChild);
             }
           }
         }
       });
       break;
     case templateType.GenreLevel:
+      sectionMain.appendChild(createElementFromTemplate(template(levels[state.level])));
+
       const sendAnswerButton = sectionMain.querySelector(`.genre-answer-send`);
       const palyerWrappers = sectionMain.querySelectorAll(`.player-wrapper`);
       [...palyerWrappers].forEach((wrapper, index) => {
@@ -67,13 +79,20 @@ const renderScreen = (template = welcomeTemplate, state = initialState) => {
         }
 
         if (isRightAnswer) {
-          renderScreen(successResultTemplate, state);
+          state = addPassedLevel(state);
+          if (state.countRequiredLevels == COUNT_GAME_LEVELS) {
+            renderScreen(successResultTemplate, state);
+          }
+          else {
+            renderScreen(artistLevelTemplate, setLevels(state, levelType.Artist));
+          }
         } else {
-          state.lives--;
+          let tempLives = --state.lives;
           if (state.lives === 0) {
-            renderScreen(failResultTemplate, state);
+          // renderScreen(failResultTemplate, setLives(state, state.lives--));
+            renderScreen(successResultTemplate, setLives(state, tempLives));
           } else {
-            sectionMain.replaceChild(createElementFromTemplate(headerTemplate(state)), sectionMain.firstChild);
+            sectionMain.replaceChild(createElementFromTemplate(headerTemplate(setLives(state, tempLives))), sectionMain.firstChild);
           }
         }
         [...checkedAnswers].forEach((item) => {
@@ -83,6 +102,7 @@ const renderScreen = (template = welcomeTemplate, state = initialState) => {
       break;
     case templateType.SuccessResult:
     case templateType.FailREsult:
+      sectionMain.appendChild(createElementFromTemplate(template(null, state)));
       levels[levelType.Artist] = createLevelType(levelType.Artist);
       levels[levelType.Genre] = createLevelType(levelType.Genre);
 

@@ -1,5 +1,9 @@
-const headerTemplate = (state) => {
-  return `<div style="color:white;position: absolute;top:0;right:0;">Количество жизней: ${ state.lives }</div>`;
+﻿const headerTemplate = (state) => {
+  return `<div class ="game_header">
+    <div class="game_header__item">Уровень игры: ${state.level}</div>
+    <div class="game_header__item">Количество жизней: ${state.lives} </div>
+    <div class="game_header__item">Время: ${state.time}</div>
+  </div>`;
 };
 
 export default headerTemplate;
