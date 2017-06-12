@@ -8,4 +8,7 @@
   justify-content: space-between;
 }
 .game_header__item {
+  &:last-child{
+    width:75px;
+  }
 }

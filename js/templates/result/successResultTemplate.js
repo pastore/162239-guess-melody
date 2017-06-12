@@ -1,4 +1,4 @@
-﻿import logoTemplate from '../parts/logoTemplate';
+import logoTemplate from '../parts/logoTemplate';
 import {getStatistics} from '../../data/data';
 
 const successResultTemplate = (level, state) => {
