@@ -32,6 +32,9 @@ export const addPassedLevel = (state) => {
 };
 
 export const setLives = (state, lives) => {
+  if (lives < 0) {
+    throw new RangeError(`Can not set negative lives`);
+  }
   state = Object.assign({}, state);
   state.lives = lives;
   return state;
