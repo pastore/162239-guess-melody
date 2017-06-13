@@ -1,12 +1,12 @@
 import createElementFromTemplate from './createElementFromTemplate';
 import levelType from '../data/types/levelType';
 import templateType from '../data/types/templateType';
-import {levels, initialState} from '../data/data';
+import {levels, initialState, setLevels, setLives, addPassedLevel, tick, COUNT_GAME_LEVELS, COUNT_GAME_TIME} from '../data/data';
 import createLevelType from '../data/createLevelType';
 import artistLevelTemplate from '../templates/level/artistLevelTemplate';
 import genreLevelTemplate from '../templates/level/genreLevelTemplate';
 import successResultTemplate from '../templates/result/successResultTemplate';
-import failResultTemplate from '../templates/result/failResultTemplate';
+// import failResultTemplate from '../templates/result/failResultTemplate';
 import welcomeTemplate from '../templates/start/welcomeTemplate';
 import headerTemplate from '../templates/parts/headerTemplate';
 
@@ -14,20 +14,28 @@ const sectionMain = document.querySelector(`section.main`);
 const renderScreen = (template = welcomeTemplate, state = initialState) => {
 
   sectionMain.innerHTML = ``;
-  let sectionHeader = createElementFromTemplate(headerTemplate(state));
-  if (template.name === templateType.ArtistLevel || template.name === templateType.GenreLevel) {
-    sectionMain.appendChild(sectionHeader);
-  }
-  sectionMain.appendChild(createElementFromTemplate(template(template.name === templateType.Welcome ? null : levels[state.level])));
 
   switch (template.name) {
     case templateType.Welcome:
+      sectionMain.appendChild(createElementFromTemplate(template(null)));
+
       const playButton = document.querySelector(`.main-play`);
       playButton.addEventListener(`click`, () => {
         renderScreen(artistLevelTemplate, Object.assign({}, state, {}));
       });
       break;
     case templateType.ArtistLevel:
+      sectionMain.appendChild(createElementFromTemplate(headerTemplate(state)));
+      sectionMain.appendChild(createElementFromTemplate(template(levels[state.level])));
+
+      let artistIntervalId = setInterval(() => {
+        state = tick(state);
+        sectionMain.replaceChild(createElementFromTemplate(headerTemplate(state)), sectionMain.firstChild);
+        if (state.time === COUNT_GAME_TIME) {
+          renderScreen(successResultTemplate, state);
+          clearInterval(artistIntervalId);
+        }
+      }, 1000);
       const answerButtonsWrapper = sectionMain.querySelector(`.main-list`);
       const rightAnswer = sectionMain.querySelector(`[data-right-answer]`);
       window.initializePlayer(rightAnswer, levels[state.level].rightAnswer.path);
@@ -36,19 +44,39 @@ const renderScreen = (template = welcomeTemplate, state = initialState) => {
         const itemValue = event.target.dataset.answer;
         if (event.target.tagName.toLowerCase() === `img`) {
           if (itemValue === rightAnswer.dataset.rightAnswer) {
-            renderScreen(genreLevelTemplate, Object.assign({}, state, {level: levelType.Genre}));
-          } else {
-            state.lives--;
-            if (state.lives === 0) {
-              renderScreen(failResultTemplate, state);
+            state = addPassedLevel(state);
+            if (state.countPassedLevels === COUNT_GAME_LEVELS) {
+              clearInterval(artistIntervalId);
+              renderScreen(successResultTemplate, state);
             } else {
-              sectionMain.replaceChild(createElementFromTemplate(headerTemplate(state)), sectionMain.firstChild);
+              clearInterval(artistIntervalId);
+              renderScreen(genreLevelTemplate, setLevels(state, levelType.Genre));
+            }
+          } else {
+            let tempLives = --state.lives;
+            if (state.lives === 0) {
+            // renderScreen(failResultTemplate, setLives(state, state.lives--));
+              clearInterval(artistIntervalId);
+              renderScreen(successResultTemplate, setLives(state, tempLives));
+            } else {
+              sectionMain.replaceChild(createElementFromTemplate(headerTemplate(setLives(state, tempLives))), sectionMain.firstChild);
             }
           }
         }
       });
       break;
     case templateType.GenreLevel:
+      sectionMain.appendChild(createElementFromTemplate(headerTemplate(state)));
+      sectionMain.appendChild(createElementFromTemplate(template(levels[state.level])));
+
+      let genreIntervalId = setInterval(() => {
+        state = tick(state);
+        sectionMain.replaceChild(createElementFromTemplate(headerTemplate(state)), sectionMain.firstChild);
+        if (state.time === COUNT_GAME_TIME) {
+          renderScreen(successResultTemplate, state);
+        }
+      }, 1000);
+
       const sendAnswerButton = sectionMain.querySelector(`.genre-answer-send`);
       const palyerWrappers = sectionMain.querySelectorAll(`.player-wrapper`);
       [...palyerWrappers].forEach((wrapper, index) => {
@@ -67,13 +95,22 @@ const renderScreen = (template = welcomeTemplate, state = initialState) => {
         }
 
         if (isRightAnswer) {
-          renderScreen(successResultTemplate, state);
-        } else {
-          state.lives--;
-          if (state.lives === 0) {
-            renderScreen(failResultTemplate, state);
+          state = addPassedLevel(state);
+          if (state.countPassedLevels === COUNT_GAME_LEVELS) {
+            clearInterval(genreIntervalId);
+            renderScreen(successResultTemplate, state);
           } else {
-            sectionMain.replaceChild(createElementFromTemplate(headerTemplate(state)), sectionMain.firstChild);
+            clearInterval(genreIntervalId);
+            renderScreen(artistLevelTemplate, setLevels(state, levelType.Artist));
+          }
+        } else {
+          let tempLives = --state.lives;
+          if (state.lives === 0) {
+          // renderScreen(failResultTemplate, setLives(state, state.lives--));
+            clearInterval(genreIntervalId);
+            renderScreen(successResultTemplate, setLives(state, tempLives));
+          } else {
+            sectionMain.replaceChild(createElementFromTemplate(headerTemplate(setLives(state, tempLives))), sectionMain.firstChild);
           }
         }
         [...checkedAnswers].forEach((item) => {
@@ -83,6 +120,7 @@ const renderScreen = (template = welcomeTemplate, state = initialState) => {
       break;
     case templateType.SuccessResult:
     case templateType.FailREsult:
+      sectionMain.appendChild(createElementFromTemplate(template(null, state)));
       levels[levelType.Artist] = createLevelType(levelType.Artist);
       levels[levelType.Genre] = createLevelType(levelType.Genre);
 

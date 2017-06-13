@@ -1,0 +1,14 @@
+﻿.game_header {
+  color: white;
+  position: absolute;
+  top: -25px;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+}
+.game_header__item {
+  &:last-child{
+    width:75px;
+  }
+}
