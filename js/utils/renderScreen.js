@@ -1,4 +1,4 @@
-import createElementFromTemplate from './createElementFromTemplate';
+﻿import createElementFromTemplate from './createElementFromTemplate';
 import levelType from '../data/types/levelType';
 import templateType from '../data/types/templateType';
 import {levels, initialState, setLevels, setLives, addPassedLevel, tick, COUNT_GAME_LEVELS, COUNT_GAME_TIME} from '../data/data';
@@ -6,7 +6,6 @@ import createLevelType from '../data/createLevelType';
 import artistLevelTemplate from '../templates/level/artistLevelTemplate';
 import genreLevelTemplate from '../templates/level/genreLevelTemplate';
 import successResultTemplate from '../templates/result/successResultTemplate';
-// import failResultTemplate from '../templates/result/failResultTemplate';
 import welcomeTemplate from '../templates/start/welcomeTemplate';
 import headerTemplate from '../templates/parts/headerTemplate';
 
@@ -55,7 +54,6 @@ const renderScreen = (template = welcomeTemplate, state = initialState) => {
           } else {
             let tempLives = --state.lives;
             if (state.lives === 0) {
-            // renderScreen(failResultTemplate, setLives(state, state.lives--));
               clearInterval(artistIntervalId);
               renderScreen(successResultTemplate, setLives(state, tempLives));
             } else {
@@ -106,7 +104,6 @@ const renderScreen = (template = welcomeTemplate, state = initialState) => {
         } else {
           let tempLives = --state.lives;
           if (state.lives === 0) {
-          // renderScreen(failResultTemplate, setLives(state, state.lives--));
             clearInterval(genreIntervalId);
             renderScreen(successResultTemplate, setLives(state, tempLives));
           } else {

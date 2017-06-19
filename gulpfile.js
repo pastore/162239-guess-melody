@@ -39,7 +39,7 @@ gulp.task('style', function () {
 });
 
 gulp.task('scripts', function () {
-    return gulp.src(['js/player.js', 'js/animate.js', 'js/main.js'])
+    return gulp.src(['js/player.js', 'js/time-format.js', 'js/timer.js', 'js/animate.js', 'js/main.js'])
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(rollup({}, 'iife'))

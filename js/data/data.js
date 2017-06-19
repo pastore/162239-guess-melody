@@ -1,27 +1,20 @@
-import levelType from './types/levelType';
-import createLevelType from './createLevelType';
+﻿import levelType from './types/levelType';
 
 const initialState = {
   level: levelType.Artist,
   lives: 3,
-  time: 0,
+  time: 120,
   countPassedLevels: 0
 };
 
-Object.freeze(initialState);
-
 export const COUNT_GAME_LEVELS = 10;
-export const COUNT_GAME_TIME = 120;
+export const TIME_GAME_OVER = 0;
 
-const levels = {};
-levels[levelType.Artist] = createLevelType(levelType.Artist);
-levels[levelType.Genre] = createLevelType(levelType.Genre);
+export {initialState};
 
-export {initialState, levels};
-
-export const setLevels = (state, level) => {
+export const setNextLevel = (state) => {
   state = Object.assign({}, state);
-  state.level = level;
+  state.level = state.level === levelType.Artist ? levelType.Genre : levelType.Artist;
   return state;
 };
 
@@ -40,9 +33,9 @@ export const setLives = (state, lives) => {
   return state;
 };
 
-export const tick = (state) => {
+export const tick = (state, time) => {
   state = Object.assign({}, state);
-  state.time++;
+  state.time = time;
   return state;
 };
 

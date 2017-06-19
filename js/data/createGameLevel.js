@@ -1,7 +1,7 @@
-import levelType from './types/levelType';
+﻿import levelType from './types/levelType';
 import audioList from './audioList';
 
-const createLevelType = (_levelType) => {
+const createGameLevel = (_levelType) => {
   let countChoices = 0;
   switch (_levelType) {
     case levelType.Artist:
@@ -31,4 +31,4 @@ const createLevelType = (_levelType) => {
   };
 };
 
-export default createLevelType;
+export default createGameLevel;
