@@ -1,4 +1,4 @@
-﻿import { initialState, setNextLevel, setLives, addPassedLevel, COUNT_GAME_LEVELS, TIME_GAME_OVER} from '../../data/data';
+﻿import { initialState, setNextLevel, setLives, addPassedLevel, COUNT_GAME_LEVELS, TIME_GAME_OVER, COUNT_GAME_TIME} from '../../data/data';
 import ArtistLevelView from './views/ArtistLevelView';
 import GenreLevelView from './views/GenreLevelView';
 import SuccessResultView from '../result/views/SuccessResultView';
@@ -14,9 +14,6 @@ export default class GameController {
 
     init() {
         changeView(this.view);
-
-         window.initializeCountdown(this.state.time);
-
 
         this.view.onAnswer = (answer) => {
             switch (answer){

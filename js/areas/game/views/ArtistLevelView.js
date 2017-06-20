@@ -1,5 +1,5 @@
 ﻿import AbstractView from '../../../utils/AbstractView';
-import {tick} from '../../../data/data';
+import {tick, COUNT_GAME_TIME} from '../../../data/data';
 import createGameLevel from '../../../data/createGameLevel';
 
 export default class ArtistLevelView extends AbstractView {
@@ -11,12 +11,17 @@ export default class ArtistLevelView extends AbstractView {
         this._level = createGameLevel(this.state.level);
         let minutes = Math.floor(this.state.time / 60);
         let secundes = this.state.time % 60;
+
+        const length = 2 * Math.PI * 370;
+        const stepLength = length / COUNT_GAME_TIME;
+        const lengthToClear = stepLength * (COUNT_GAME_TIME - this.state.time);
+
         return `<section class="main main--level main--level-artist">
         <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
         <circle
           cx="390" cy="390" r="370"
           class="timer-line"
-          style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
+          style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center" stroke-dasharray=${length.toString()} stroke-dashoffset=${lengthToClear.toString()}></circle>
 
         <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
           <span class="timer-value-mins">${this._utils.addLeadingZero(minutes)}</span><!--
@@ -57,7 +62,9 @@ export default class ArtistLevelView extends AbstractView {
     bind() {
         const answerButtonsWrapper = this.element.querySelector(`.main-list`);
         const rightAnswer = this.element.querySelector(`[data-right-answer]`);
+
         window.initializePlayer(rightAnswer, this._level.rightAnswer.path);
+        window.initializeCountdown(this.element, (COUNT_GAME_TIME - this.state.time), COUNT_GAME_TIME);
 
         answerButtonsWrapper.addEventListener(`click`, (event) => {
             const itemValue = event.target.dataset.answer;

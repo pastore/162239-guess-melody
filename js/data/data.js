@@ -8,6 +8,7 @@ const initialState = {
 };
 
 export const COUNT_GAME_LEVELS = 10;
+export const COUNT_GAME_TIME = 120;
 export const TIME_GAME_OVER = 0;
 
 export {initialState};

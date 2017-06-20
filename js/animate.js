@@ -1,10 +1,12 @@
-window.animation = {
+﻿window.animation = {
   getAnimation: (step, stepDuration, steps) => ({
     step, stepDuration, steps
   }),
 
   animate: (animation, callback, callbackEnd) => {
-    const interval = setInterval(() => {
+      //debugger;
+      const interval = setInterval(() => {
+          //debugger;
       const nextStep = animation.step + 1;
       if (nextStep <= animation.steps) {
         animation = window.animation.getAnimation(nextStep, animation.stepDuration, animation.steps);
