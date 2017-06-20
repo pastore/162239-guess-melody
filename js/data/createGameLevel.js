@@ -1,4 +1,4 @@
-﻿import levelType from './types/levelType';
+import levelType from './types/levelType';
 import audioList from './audioList';
 
 const createGameLevel = (_levelType) => {
@@ -32,3 +32,4 @@ const createGameLevel = (_levelType) => {
 };
 
 export default createGameLevel;
+

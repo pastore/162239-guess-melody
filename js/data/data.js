@@ -1,4 +1,4 @@
-﻿import levelType from './types/levelType';
+import levelType from './types/levelType';
 
 const initialState = {
   level: levelType.Artist,
@@ -7,7 +7,7 @@ const initialState = {
   countPassedLevels: 0
 };
 
-export const COUNT_GAME_LEVELS = 10;
+export const COUNT_GAME_LEVELS = 3;
 export const COUNT_GAME_TIME = 120;
 export const TIME_GAME_OVER = 0;
 
@@ -71,3 +71,4 @@ export const getStatistics = (state) => {
   });
   return Math.floor(((statistics.length - 1) - tempStatistics.indexOf(randomId)) * (100 / statistics.length));
 };
+

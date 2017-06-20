@@ -1,8 +1,8 @@
-﻿const sectionMain = document.querySelector(`section.main`);
+const sectionMain = document.querySelector(`section.main`);
 
 const changeView = (view) => {
-    sectionMain.innerHTML = ``;
-    sectionMain.appendChild(view.element);
+  sectionMain.innerHTML = ``;
+  sectionMain.appendChild(view.element);
 };
 
 export default changeView;
