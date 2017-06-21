@@ -10,6 +10,8 @@ export default class AbstractView {
 
   bind() { }
 
+  unbind() { }
+
   get element() {
     if (!this._element) {
       this._element = this.render();
@@ -18,4 +20,5 @@ export default class AbstractView {
     return this._element;
   }
 }
+
 

@@ -3,6 +3,7 @@ import {tick, COUNT_GAME_TIME} from '../../../data/data';
 import createGameLevel from '../../../data/createGameLevel';
 import initializeCountdown from '../../../timer';
 import initializePlayer from '../../../player';
+import {addLeadingZero} from '../../../timer';
 
 export default class GenreLevelView extends AbstractView {
   constructor(state) {
@@ -26,9 +27,9 @@ export default class GenreLevelView extends AbstractView {
       style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center" stroke-dasharray=${length.toString()} stroke-dashoffset=${lengthToClear.toString()}></circle>
 
     <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-      <span class="timer-value-mins">${this._utils.addLeadingZero(minutes)}</span><!--
+      <span class="timer-value-mins">${addLeadingZero(minutes)}</span><!--
       --><span class="timer-value-dots">:</span><!--
-      --><span class="timer-value-secs">${this._utils.addLeadingZero(secundes)}</span>
+      --><span class="timer-value-secs">${addLeadingZero(secundes)}</span>
     </div>
     </svg>
 
@@ -37,25 +38,20 @@ export default class GenreLevelView extends AbstractView {
 
     <h2 class="title">Выберите ${this._level.rightAnswer.genre} треки</h2>
     <form class="genre">
-    ${this._utils.createGenreAnswers(this._level)}
+    ${this.createGenreAnswers(this._level)}
       <button class="genre-answer-send" type="submit">Ответить</button>
     </form>
     </section>`;
   }
 
-  get _utils() {
-    return {
-      createGenreAnswers: (level) => {
-        return level.answers.map((answer) => {
-          return `<div class="genre-answer">
-          <div class="player-wrapper"></div>
-          <input type="checkbox" name="answer" value="${answer.genre === level.rightAnswer.genre}" id="a-${answer.id}">
-          <label class="genre-answer-check" for="a-${answer.id}"></label>
-          </div>`;
-        }).join(``);
-      },
-      addLeadingZero: (val) => val < 10 ? `0${val}` : val
-    };
+  createGenreAnswers(level) {
+    return level.answers.map((answer) => {
+      return `<div class="genre-answer">
+      <div class="player-wrapper"></div>
+      <input type="checkbox" name="answer" value="${answer.genre === level.rightAnswer.genre}" id="a-${answer.id}">
+      <label class="genre-answer-check" for="a-${answer.id}"></label>
+      </div>`;
+    }).join(``);
   }
 
   bind() {
@@ -91,4 +87,5 @@ export default class GenreLevelView extends AbstractView {
     });
   }
 }
+
 

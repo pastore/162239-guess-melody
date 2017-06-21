@@ -3,6 +3,7 @@ import {tick, COUNT_GAME_TIME} from '../../../data/data';
 import createGameLevel from '../../../data/createGameLevel';
 import initializeCountdown from '../../../timer';
 import initializePlayer from '../../../player';
+import {addLeadingZero} from '../../../timer';
 
 export default class ArtistLevelView extends AbstractView {
   constructor(state) {
@@ -26,9 +27,9 @@ export default class ArtistLevelView extends AbstractView {
       style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center" stroke-dasharray=${length.toString()} stroke-dashoffset=${lengthToClear.toString()}></circle>
 
     <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-      <span class="timer-value-mins">${this._utils.addLeadingZero(minutes)}</span><!--
+      <span class="timer-value-mins">${addLeadingZero(minutes)}</span><!--
       --><span class="timer-value-dots">:</span><!--
-      --><span class="timer-value-secs">${this._utils.addLeadingZero(secundes)}</span>
+      --><span class="timer-value-secs">${addLeadingZero(secundes)}</span>
     </div>
     </svg>
 
@@ -38,27 +39,22 @@ export default class ArtistLevelView extends AbstractView {
     <h2 class="title main-title">Кто исполняет эту песню?</h2>
     <div class="player-wrapper" data-right-answer="${this._level.rightAnswer.id}"></div>
     <form class="main-list">
-    ${this._utils.createArtistAnswers(this._level)}
+    ${this.createArtistAnswers(this._level)}
     </form>
     </div>
     </section>`;
   }
 
-  get _utils() {
-    return {
-      createArtistAnswers: (level) => {
-        return level.answers.map((answer) => {
-          return `<div class="main-answer-wrapper">
-          <input class="main-answer-r" type="radio" id="a-${answer.id}" name="answer" value="${answer.id}" />
-          <label class="main-answer" for="a-${answer.id}">
-          <img class="main-answer-preview" src="" data-answer="${answer.id}">
-          ${answer.author}
-          </label>
-          </div>`;
-        }).join(``);
-      },
-      addLeadingZero: (val) => val < 10 ? `0${val}` : val
-    };
+  createArtistAnswers(level) {
+    return level.answers.map((answer) => {
+      return `<div class="main-answer-wrapper">
+      <input class="main-answer-r" type="radio" id="a-${answer.id}" name="answer" value="${answer.id}" />
+      <label class="main-answer" for="a-${answer.id}">
+      <img class="main-answer-preview" src="" data-answer="${answer.id}">
+      ${answer.author}
+      </label>
+      </div>`;
+    }).join(``);
   }
 
   bind() {

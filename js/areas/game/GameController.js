@@ -9,69 +9,64 @@ import changeView from '../../utils/changeView';
 export default class GameController {
   constructor(state = initialState) {
     this.state = state;
-    this._utils.setLevelView();
+    this.setLevelView();
   }
 
   init() {
     changeView(this.view);
 
     this.view.onAnswer = (answer) => {
-      switch (answer) {
-        case true:
-          this.state = this.view.state;
-          if (this.state.time === TIME_GAME_OVER) {
-            this.view = new FailResultView(this.state);
-            this.view.onRepeat = this._utils.onRepeat;
-            break;
-          }
+      if (answer === true) {
+        this.state = this.view.state;
+        if (this.state.time === TIME_GAME_OVER) {
+          this.view = new FailResultView(this.state);
+          this.view.onRepeat = this.onRepeat;
+        } else {
           this.state = addPassedLevel(this.state);
           if (this.state.countPassedLevels === COUNT_GAME_LEVELS) {
             this.view = new SuccessResultView(this.state);
-            this.view.onRepeat = this._utils.onRepeat;
+            this.view.onRepeat = this.onRepeat;
           } else {
             this.state = setNextLevel(this.state);
-            this._utils.setLevelView();
+            this.setLevelView();
           }
-          break;
-        case false:
-          this.state = this.view.state;
-          if (this.state.time === TIME_GAME_OVER) {
-            this.view = new FailResultView(this.state);
-            this.view.onRepeat = this._utils.onRepeat;
-            break;
-          }
+        }
+      } else {
+        this.state = this.view.state;
+        if (this.state.time === TIME_GAME_OVER) {
+          this.view = new FailResultView(this.state);
+          this.view.onRepeat = this.onRepeat;
+        } else {
           let tempLives = this.state.lives - 1;
           this.state = setLives(this.state, tempLives);
           if (this.state.lives === 0) {
             this.view = new FailResultView(this.state);
-            this.view.onRepeat = this._utils.onRepeat;
+            this.view.onRepeat = this.onRepeat;
           } else {
             this.state = setNextLevel(this.state);
-            this._utils.setLevelView();
+            this.setLevelView();
           }
-          break;
+        }
       }
       this.init();
     };
   }
 
-  get _utils() {
-    return {
-      onRepeat: () => {
-        this.state = initialState;
-        this._utils.setLevelView();
-        this.init();
-      },
-      setLevelView: () => {
-        switch (this.state.level) {
-          case levelType.Artist:
-            this.view = new ArtistLevelView(this.state);
-            break;
-          case levelType.Genre:
-            this.view = new GenreLevelView(this.state);
-            break;
-        }
-      }
-    };
+  onRepeat() {
+    this.state = initialState;
+    this.setLevelView();
+    this.init();
+  }
+
+  setLevelView() {
+    switch (this.state.level) {
+      case levelType.Artist:
+        this.view = new ArtistLevelView(this.state);
+        break;
+      case levelType.Genre:
+        this.view = new GenreLevelView(this.state);
+        break;
+    }
   }
 }
+

@@ -17,12 +17,8 @@ export default class SuccessResultView extends AbstractView {
     </section>`;
   }
 
-  get _utils() {
-    return {
-      logoTemplate: () => {
-        return `<section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>`;
-      }
-    };
+  logoTemplate() {
+    return `<section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>`;
   }
 
   bind() {
@@ -32,3 +28,4 @@ export default class SuccessResultView extends AbstractView {
     });
   }
 }
+

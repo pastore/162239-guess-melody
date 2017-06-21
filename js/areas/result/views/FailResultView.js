@@ -7,19 +7,15 @@ export default class FailResultView extends AbstractView {
   }
   get template() {
     return `<section class="main main--result">
-      ${this._utils.logoTemplate()}
+      ${this.logoTemplate()}
       <h2 class="title">Вы проиграли</h2>
       <div class="main-stat">Ничего, вам повезет в следующий раз</div>
       <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
     </section>`;
   }
 
-  get _utils() {
-    return {
-      logoTemplate: () => {
-        return `<section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>`;
-      }
-    };
+  logoTemplate() {
+    return `<section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>`;
   }
 
   bind() {
