@@ -14,6 +14,7 @@ const imagemin = require('gulp-imagemin');
 const rollup = require('gulp-better-rollup');
 const sourcemaps = require('gulp-sourcemaps');
 const mocha = require('gulp-mocha');
+const concat = require("gulp-concat");
 
 gulp.task('style', function () {
   gulp.src('sass/style.scss')
@@ -39,7 +40,7 @@ gulp.task('style', function () {
 });
 
 gulp.task('scripts', function () {
-    return gulp.src(['js/player.js', 'js/animate.js', 'js/main.js'])
+    return gulp.src( 'js/main.js')
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(rollup({}, 'iife'))
