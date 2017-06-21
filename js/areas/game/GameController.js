@@ -17,31 +17,31 @@ export default class GameController {
 
     this.view.onAnswer = (answer) => {
       if (answer === true) {
-        this.state = this.view.state;
+        this.state.time = this.view.state.time;
         if (this.state.time === TIME_GAME_OVER) {
           this.view = new FailResultView(this.state);
-          this.view.onRepeat = this.onRepeat;
+          this.view.onRepeat = this.onRepeat.bind(this);
         } else {
           this.state = addPassedLevel(this.state);
           if (this.state.countPassedLevels === COUNT_GAME_LEVELS) {
             this.view = new SuccessResultView(this.state);
-            this.view.onRepeat = this.onRepeat;
+            this.view.onRepeat = this.onRepeat.bind(this);
           } else {
             this.state = setNextLevel(this.state);
             this.setLevelView();
           }
         }
       } else {
-        this.state = this.view.state;
+        this.state.time = this.view.state.time;
         if (this.state.time === TIME_GAME_OVER) {
           this.view = new FailResultView(this.state);
-          this.view.onRepeat = this.onRepeat;
+          this.view.onRepeat = this.onRepeat.bind(this);
         } else {
           let tempLives = this.state.lives - 1;
           this.state = setLives(this.state, tempLives);
           if (this.state.lives === 0) {
             this.view = new FailResultView(this.state);
-            this.view.onRepeat = this.onRepeat;
+            this.view.onRepeat = this.onRepeat.bind(this);
           } else {
             this.state = setNextLevel(this.state);
             this.setLevelView();

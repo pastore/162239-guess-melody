@@ -25,7 +25,7 @@ export const addPassedLevel = (state) => {
   return Object.assign(
   {},
       state,
-  {countPassedLevels: state.countPassedLevels++}
+  {countPassedLevels: ++state.countPassedLevels}
   );
 };
 

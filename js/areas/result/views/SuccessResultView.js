@@ -1,5 +1,5 @@
 import AbstractView from '../../../utils/AbstractView';
-import {getStatistics} from '../../../data/data';
+import {getStatistics, COUNT_GAME_TIME} from '../../../data/data';
 
 export default class SuccessResultView extends AbstractView {
   constructor(state) {
@@ -9,9 +9,9 @@ export default class SuccessResultView extends AbstractView {
   get template() {
     const tempStatistics = getStatistics(this.state);
     return `<section class="main main--result">
-      ${this._utils.logoTemplate()}
+      ${this.logoTemplate()}
       <h2 class="title">Вы настоящий меломан!</h2>
-      <div class="main-stat">За&nbsp;${this.state.time}&nbsp;секунд<br>вы&nbsp;отгадали ${this.state.countPassedLevels}&nbsp;мелодии</div>
+      <div class="main-stat">За&nbsp;${COUNT_GAME_TIME - this.state.time}&nbsp;секунд<br>вы&nbsp;отгадали ${this.state.countPassedLevels}&nbsp;мелодии</div>
       <span class="main-comparison">Это&nbsp;лучше чем у&nbsp;${tempStatistics}%&nbsp;игроков</span>
       <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
     </section>`;
