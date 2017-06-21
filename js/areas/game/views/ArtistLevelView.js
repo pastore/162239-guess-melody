@@ -1,6 +1,8 @@
 import AbstractView from '../../../utils/AbstractView';
 import {tick, COUNT_GAME_TIME} from '../../../data/data';
 import createGameLevel from '../../../data/createGameLevel';
+import initializeCountdown from '../../../timer';
+import initializePlayer from '../../../player';
 
 export default class ArtistLevelView extends AbstractView {
   constructor(state) {
@@ -63,8 +65,8 @@ export default class ArtistLevelView extends AbstractView {
     const answerButtonsWrapper = this.element.querySelector(`.main-list`);
     const rightAnswer = this.element.querySelector(`[data-right-answer]`);
 
-    window.initializePlayer(rightAnswer, this._level.rightAnswer.path);
-    window.initializeCountdown(this.element, (COUNT_GAME_TIME - this.state.time), COUNT_GAME_TIME);
+    initializePlayer(rightAnswer, this._level.rightAnswer.path);
+    initializeCountdown(this.element, (COUNT_GAME_TIME - this.state.time), COUNT_GAME_TIME);
 
     answerButtonsWrapper.addEventListener(`click`, (event) => {
       const itemValue = event.target.dataset.answer;
@@ -81,3 +83,4 @@ export default class ArtistLevelView extends AbstractView {
     });
   }
 }
+

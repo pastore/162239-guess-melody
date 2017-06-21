@@ -1,4 +1,4 @@
-window.animation = {
+const animations = {
   getAnimation: (step, stepDuration, steps) => ({
     step, stepDuration, steps
   }),
@@ -9,7 +9,7 @@ window.animation = {
 
       const nextStep = animation.step + 1;
       if (nextStep <= animation.steps) {
-        animation = window.animation.getAnimation(nextStep, animation.stepDuration, animation.steps);
+        animation = animations.getAnimation(nextStep, animation.stepDuration, animation.steps);
         callback(animation);
       } else {
         stopFn();
@@ -24,3 +24,5 @@ window.animation = {
     return stopFn;
   }
 };
+
+export default animations;

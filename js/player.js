@@ -1,3 +1,5 @@
+import animations from './animate';
+
 const updateState = (element, player) => {
   element.querySelector(`.player-status`).style.width =
       `${parseInt(player.currentTime * 100 / player.duration, 10)}%`;
@@ -12,8 +14,8 @@ const syncState = (player, element) => {
 const switchState = (state, player, element) => {
   if (player.paused) {
     player.play();
-    state.stopAnimation = window.animation.animate(
-        window.animation.getAnimation(player.currentTime, 1000, player.duration),
+    state.stopAnimation = animations.animate(
+        animations.getAnimation(player.currentTime, 1000, player.duration),
         (animation) => updateState(element, player));
   } else {
     player.pause();
@@ -42,7 +44,7 @@ const destroyPlayer = (element, state) => {
 };
 
 
-window.initializePlayer = (element, file, autoplay = false, controllable = true) => {
+const initializePlayer = (element, file, autoplay = false, controllable = true) => {
   let state = {};
 
   const content = document.querySelector(`template`)
@@ -68,3 +70,5 @@ window.initializePlayer = (element, file, autoplay = false, controllable = true)
 
   return () => destroyPlayer(element, state);
 };
+
+export default initializePlayer;

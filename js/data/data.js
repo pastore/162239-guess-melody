@@ -1,43 +1,51 @@
 import levelType from './types/levelType';
 
-const initialState = {
-  level: levelType.Artist,
-  lives: 3,
-  time: 120,
-  countPassedLevels: 0
-};
-
 export const COUNT_GAME_LEVELS = 3;
 export const COUNT_GAME_TIME = 120;
 export const TIME_GAME_OVER = 0;
 
+const initialState = {
+  level: levelType.Artist,
+  lives: 3,
+  time: COUNT_GAME_TIME,
+  countPassedLevels: 0
+};
+
 export {initialState};
 
 export const setNextLevel = (state) => {
-  state = Object.assign({}, state);
-  state.level = state.level === levelType.Artist ? levelType.Genre : levelType.Artist;
-  return state;
+  return Object.assign(
+  {},
+      state,
+  {level: state.level === levelType.Artist ? levelType.Genre : levelType.Artist}
+  );
 };
 
 export const addPassedLevel = (state) => {
-  state = Object.assign({}, state);
-  state.countPassedLevels++;
-  return state;
+  return Object.assign(
+  {},
+      state,
+  {countPassedLevels: state.countPassedLevels++}
+  );
 };
 
 export const setLives = (state, lives) => {
   if (lives < 0) {
     throw new RangeError(`Can not set negative lives`);
   }
-  state = Object.assign({}, state);
-  state.lives = lives;
-  return state;
+  return Object.assign(
+  {},
+      state,
+  {lives}
+  );
 };
 
 export const tick = (state, time) => {
-  state = Object.assign({}, state);
-  state.time = time;
-  return state;
+  return Object.assign(
+  {},
+      state,
+  {time}
+  );
 };
 
 export const statistics = [
@@ -71,4 +79,5 @@ export const getStatistics = (state) => {
   });
   return Math.floor(((statistics.length - 1) - tempStatistics.indexOf(randomId)) * (100 / statistics.length));
 };
+
 

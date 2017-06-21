@@ -1,6 +1,8 @@
 import AbstractView from '../../../utils/AbstractView';
 import {tick, COUNT_GAME_TIME} from '../../../data/data';
 import createGameLevel from '../../../data/createGameLevel';
+import initializeCountdown from '../../../timer';
+import initializePlayer from '../../../player';
 
 export default class GenreLevelView extends AbstractView {
   constructor(state) {
@@ -60,10 +62,10 @@ export default class GenreLevelView extends AbstractView {
     const sendAnswerButton = this.element.querySelector(`.genre-answer-send`);
     const palyerWrappers = this.element.querySelectorAll(`.player-wrapper`);
     [...palyerWrappers].forEach((wrapper, index) => {
-      window.initializePlayer(wrapper, this._level.answers[index].path);
+      initializePlayer(wrapper, this._level.answers[index].path);
     });
 
-    window.initializeCountdown(this.element, (COUNT_GAME_TIME - this.state.time), COUNT_GAME_TIME);
+    initializeCountdown(this.element, (COUNT_GAME_TIME - this.state.time), COUNT_GAME_TIME);
 
     sendAnswerButton.addEventListener(`click`, (e) => {
       e.preventDefault();
@@ -89,3 +91,4 @@ export default class GenreLevelView extends AbstractView {
     });
   }
 }
+
