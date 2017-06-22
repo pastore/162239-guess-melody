@@ -1,5 +1,5 @@
 import AbstractView from '../../../utils/AbstractView';
-import {tick, COUNT_GAME_TIME} from '../../../data/data';
+import {setTime, COUNT_GAME_TIME} from '../../../data/data';
 import createGameLevel from '../../../data/createGameLevel';
 import initializeCountdown from '../../../timer';
 import initializePlayer from '../../../player';
@@ -58,25 +58,32 @@ export default class ArtistLevelView extends AbstractView {
   }
 
   bind() {
-    const answerButtonsWrapper = this.element.querySelector(`.main-list`);
-    const rightAnswer = this.element.querySelector(`[data-right-answer]`);
+    this._answerButtonsWrapper = this.element.querySelector(`.main-list`);
+    this._rightAnswer = this.element.querySelector(`[data-right-answer]`);
 
-    initializePlayer(rightAnswer, this._level.rightAnswer.path);
-    initializeCountdown(this.element, (COUNT_GAME_TIME - this.state.time), COUNT_GAME_TIME);
+    this._removePlayer = initializePlayer(this._rightAnswer, this._level.rightAnswer.path);
+    this._removeTimer = initializeCountdown(this.element, (COUNT_GAME_TIME - this.state.time), COUNT_GAME_TIME);
+    this._answerButtonsWrapper.addEventListener(`click`, this.handleAnswer.bind(this));
+  }
 
-    answerButtonsWrapper.addEventListener(`click`, (event) => {
-      const itemValue = event.target.dataset.answer;
-      if (event.target.tagName.toLowerCase() === `img`) {
+  unbind() {
+    this._answerButtonsWrapper.removeEventListener(`click`, this.handleAnswer.bind(this));
+    this._removeTimer();
+    this._removePlayer();
+  }
 
-        const timer = document.querySelector(`.timer-value`);
-        let minutes = timer.querySelector(`.timer-value-mins`).textContent;
-        let secundes = timer.querySelector(`.timer-value-secs`).textContent;
-        let time = (parseInt(minutes, 10) * 60) + parseInt(secundes, 10);
-        this.state = tick(this.state, time);
+  handleAnswer(event) {
+    const itemValue = event.target.dataset.answer;
+    if (event.target.tagName.toLowerCase() === `img`) {
+      const timer = document.querySelector(`.timer-value`);
+      let minutes = timer.querySelector(`.timer-value-mins`).textContent;
+      let secundes = timer.querySelector(`.timer-value-secs`).textContent;
+      let time = (parseInt(minutes, 10) * 60) + parseInt(secundes, 10);
+      this.state = setTime(this.state, time);
 
-        this.onAnswer(itemValue === rightAnswer.dataset.rightAnswer);
-      }
-    });
+      this.onAnswer(itemValue === this._rightAnswer.dataset.rightAnswer);
+    }
   }
 }
+
 

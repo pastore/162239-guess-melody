@@ -55,3 +55,4 @@ const initializeCountdown = (el, step, steps = 120) => {
 };
 
 export default initializeCountdown;
+

@@ -40,7 +40,7 @@ export const setLives = (state, lives) => {
   );
 };
 
-export const tick = (state, time) => {
+export const setTime = (state, time) => {
   return Object.assign(
   {},
       state,

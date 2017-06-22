@@ -1,5 +1,5 @@
 import AbstractView from '../../../utils/AbstractView';
-import {tick, COUNT_GAME_TIME} from '../../../data/data';
+import {setTime, COUNT_GAME_TIME} from '../../../data/data';
 import createGameLevel from '../../../data/createGameLevel';
 import initializeCountdown from '../../../timer';
 import initializePlayer from '../../../player';
@@ -55,36 +55,47 @@ export default class GenreLevelView extends AbstractView {
   }
 
   bind() {
-    const sendAnswerButton = this.element.querySelector(`.genre-answer-send`);
-    const palyerWrappers = this.element.querySelectorAll(`.player-wrapper`);
-    [...palyerWrappers].forEach((wrapper, index) => {
-      initializePlayer(wrapper, this._level.answers[index].path);
+    this._sendAnswerButton = this.element.querySelector(`.genre-answer-send`);
+    this._palyerWrappers = this.element.querySelectorAll(`.player-wrapper`);
+    this.removePlayers = [];
+    [...this._palyerWrappers].forEach((wrapper, index) => {
+      this.removePlayers[index] = initializePlayer(wrapper, this._level.answers[index].path);
     });
 
-    initializeCountdown(this.element, (COUNT_GAME_TIME - this.state.time), COUNT_GAME_TIME);
+    this.removeTimer = initializeCountdown(this.element, (COUNT_GAME_TIME - this.state.time), COUNT_GAME_TIME);
 
-    sendAnswerButton.addEventListener(`click`, (e) => {
-      e.preventDefault();
-      const checkedAnswers = document.querySelectorAll(`input[name='answer']:checked`);
-      let isRightAnswer = false;
+    this._sendAnswerButton.addEventListener(`click`, this.handleAnswer.bind(this));
+  }
 
-      if (checkedAnswers.length > 0) {
-        isRightAnswer = [...checkedAnswers].every(function (input) {
-          return input.value === `true`;
-        });
-
-        const timer = document.querySelector(`.timer-value`);
-        let minutes = timer.querySelector(`.timer-value-mins`).textContent;
-        let secundes = timer.querySelector(`.timer-value-secs`).textContent;
-        let time = (parseInt(minutes, 10) * 60) + parseInt(secundes, 10);
-        this.state = tick(this.state, time);
-
-        this.onAnswer(isRightAnswer);
-        [...checkedAnswers].forEach((item) => {
-          item.checked = false;
-        });
-      }
+  unbind() {
+    this._sendAnswerButton.removeEventListener(`click`, this.handleAnswer.bind(this));
+    this.removeTimer();
+    this.removePlayers.forEach((item, index) => {
+      item();
     });
+  }
+
+  handleAnswer(event) {
+    event.preventDefault();
+    const checkedAnswers = document.querySelectorAll(`input[name='answer']:checked`);
+    let isRightAnswer = false;
+
+    if (checkedAnswers.length > 0) {
+      isRightAnswer = [...checkedAnswers].every(function (input) {
+        return input.value === `true`;
+      });
+
+      const timer = document.querySelector(`.timer-value`);
+      let minutes = timer.querySelector(`.timer-value-mins`).textContent;
+      let secundes = timer.querySelector(`.timer-value-secs`).textContent;
+      let time = (parseInt(minutes, 10) * 60) + parseInt(secundes, 10);
+      this.state = setTime(this.state, time);
+
+      this.onAnswer(isRightAnswer);
+      [...checkedAnswers].forEach((item) => {
+        item.checked = false;
+      });
+    }
   }
 }
 
