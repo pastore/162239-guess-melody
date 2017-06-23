@@ -1,5 +1,5 @@
-﻿import assert from 'assert';
-import {initialState, setLives, tick, addPassedLevel} from './data';
+import assert from 'assert';
+import {initialState, setLives, setTime, addPassedLevel} from './data';
 import levelType from './types/levelType';
 
 describe(`State`, () => {
@@ -24,7 +24,7 @@ describe(`State`, () => {
   });
   describe(`Time`, () => {
     it(`Should update time`, () => {
-      assert(1, tick(initialState));
+      assert(1, setTime(initialState));
     });
     it(`Should time 120 on start`, () => {
       assert.equal(initialState.time, 120);
@@ -36,4 +36,5 @@ describe(`State`, () => {
     });
   });
 });
+
 

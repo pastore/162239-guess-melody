@@ -1,4 +1,4 @@
-import {initialState, setNextLevel, setLives, addPassedLevel, COUNT_GAME_LEVELS, TIME_GAME_OVER} from '../../data/data';
+import {initialState, setNextLevel, setLives, addPassedLevel, setTime, COUNT_GAME_LEVELS, TIME_GAME_OVER} from '../../data/data';
 import ArtistLevelView from './views/ArtistLevelView';
 import GenreLevelView from './views/GenreLevelView';
 import SuccessResultView from '../result/views/SuccessResultView';
@@ -16,8 +16,9 @@ export default class GameController {
     changeView(this.view);
 
     this.view.onAnswer = (answer) => {
+      this.view.unbind();
       if (answer === true) {
-        this.state.time = this.view.state.time;
+        this.state = setTime(this.state, this.view.state.time);
         if (this.state.time === TIME_GAME_OVER) {
           this.view = new FailResultView(this.state);
           this.view.onRepeat = this.onRepeat.bind(this);
@@ -32,7 +33,7 @@ export default class GameController {
           }
         }
       } else {
-        this.state.time = this.view.state.time;
+        this.state = setTime(this.state, this.view.state.time);
         if (this.state.time === TIME_GAME_OVER) {
           this.view = new FailResultView(this.state);
           this.view.onRepeat = this.onRepeat.bind(this);
@@ -53,7 +54,7 @@ export default class GameController {
   }
 
   onRepeat() {
-    this.state = initialState;
+    this.state = Object.assign({}, initialState);
     this.setLevelView();
     this.init();
   }
@@ -69,4 +70,5 @@ export default class GameController {
     }
   }
 }
+
 
