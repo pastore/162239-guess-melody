@@ -54,7 +54,7 @@ export default class GameController {
   }
 
   onRepeat() {
-    this.state = initialState;
+    this.state = Object.assign({}, initialState);
     this.setLevelView();
     this.init();
   }
