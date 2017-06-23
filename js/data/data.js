@@ -14,38 +14,23 @@ const initialState = {
 export {initialState};
 
 export const setNextLevel = (state) => {
-  return Object.assign(
-  {},
-      state,
-  {level: state.level === levelType.Artist ? levelType.Genre : levelType.Artist}
-  );
+  const level = state.level === levelType.Artist ? levelType.Genre : levelType.Artist;
+  return Object.assign({}, state, {level});
 };
 
 export const addPassedLevel = (state) => {
-  return Object.assign(
-  {},
-      state,
-  {countPassedLevels: ++state.countPassedLevels}
-  );
+  return Object.assign({}, state, {countPassedLevels: ++state.countPassedLevels});
 };
 
 export const setLives = (state, lives) => {
   if (lives < 0) {
     throw new RangeError(`Can not set negative lives`);
   }
-  return Object.assign(
-  {},
-      state,
-  {lives}
-  );
+  return Object.assign({}, state, {lives});
 };
 
 export const setTime = (state, time) => {
-  return Object.assign(
-  {},
-      state,
-  {time}
-  );
+  return Object.assign({}, state, {time});
 };
 
 export const statistics = [
