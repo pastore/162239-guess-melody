@@ -1,4 +1,4 @@
-// Окружность уменьшается за счет штриховки. Фактически, обводка состоит
+﻿// Окружность уменьшается за счет штриховки. Фактически, обводка состоит
 // из одного длинного штриха, а пропуск за счет расстояния до следующего
 // штриха. Задача правильной заливки состоит в том, чтобы правильно
 // задать расстояние до следующего штриха.
@@ -43,7 +43,7 @@ const redrawTimer = (timer, animation) => {
 };
 
 
-const initializeCountdown = (el, step, steps = 120) => {
+const initializeCountdown = (el, step, steps = 120, callback) => {
   const element = el.querySelector(`.timer-line`);
   const radius = parseInt(element.getAttributeNS(null, `r`), 10);
   const timer = el.querySelector(`.timer-value`);
@@ -51,7 +51,10 @@ const initializeCountdown = (el, step, steps = 120) => {
   return animations.animate(animations.getAnimation(step, 1000, steps), (animation) => {
     redrawCircle(element, radius, animation);
     redrawTimer(timer, animation);
-  }, () => timer.classList.add(`timer-value--finished`));
+  }, () => {
+    timer.classList.add(`timer-value--finished`);
+    setTimeout(callback, 3000);
+  });
 };
 
 export default initializeCountdown;

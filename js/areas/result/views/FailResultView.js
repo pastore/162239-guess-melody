@@ -1,6 +1,6 @@
-import AbstractView from '../../../utils/AbstractView';
+﻿import BaseView from '../../../core/BaseView';
 
-export default class FailResultView extends AbstractView {
+export default class FailResultView extends BaseView {
   constructor(state) {
     super();
     this.state = state;

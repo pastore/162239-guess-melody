@@ -1,23 +1,22 @@
-import AbstractView from '../../../utils/AbstractView';
-import {setTime, COUNT_GAME_TIME} from '../../../data/data';
-import createGameLevel from '../../../data/createGameLevel';
-import initializeCountdown from '../../../timer';
+﻿import BaseView from '../../../core/BaseView';
+import ManageState from '../../../core/state';
+import gameConstans from '../../../core/types/gameConstans';
+import initializeCountdown, {addLeadingZero} from '../../../timer';
 import initializePlayer from '../../../player';
-import {addLeadingZero} from '../../../timer';
 
-export default class GenreLevelView extends AbstractView {
-  constructor(state) {
+export default class GenreLevelView extends BaseView {
+    constructor(state, question) {
     super();
     this.state = state;
+    this.question = question;
   }
   get template() {
-    this._level = createGameLevel(this.state.level);
     let minutes = Math.floor(this.state.time / 60);
     let secundes = this.state.time % 60;
 
     const length = 2 * Math.PI * 370;
-    const stepLength = length / COUNT_GAME_TIME;
-    const lengthToClear = stepLength * (COUNT_GAME_TIME - this.state.time);
+    const stepLength = length / gameConstans.COUNT_GAME_TIME;
+    const lengthToClear = stepLength * (gameConstans.COUNT_GAME_TIME - this.state.time);
 
     return `<section class="main main--level main--level-genre">
       <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
@@ -36,20 +35,21 @@ export default class GenreLevelView extends AbstractView {
     <div class="main-wrap">
     <div class="main-timer"></div>
 
-    <h2 class="title">Выберите ${this._level.rightAnswer.genre} треки</h2>
+    <h2 class="title">${this.question.question}</h2>
     <form class="genre">
-    ${this.createGenreAnswers(this._level)}
+    ${this.createGenreAnswers(this.question)}
       <button class="genre-answer-send" type="submit">Ответить</button>
     </form>
     </section>`;
   }
 
-  createGenreAnswers(level) {
-    return level.answers.map((answer) => {
+  createGenreAnswers(question) {
+      return question.answers.map((answer) => {
+      let randomId = Math.random().toString(36).substr(2, 9);
       return `<div class="genre-answer">
       <div class="player-wrapper"></div>
-      <input type="checkbox" name="answer" value="${answer.genre === level.rightAnswer.genre}" id="a-${answer.id}">
-      <label class="genre-answer-check" for="a-${answer.id}"></label>
+      <input type="checkbox" name="answer" value="${answer.genre === question.genre}" id="a-${randomId}">
+      <label class="genre-answer-check" for="a-${randomId}"></label>
       </div>`;
     }).join(``);
   }
@@ -59,17 +59,17 @@ export default class GenreLevelView extends AbstractView {
     this._palyerWrappers = this.element.querySelectorAll(`.player-wrapper`);
     this.removePlayers = [];
     [...this._palyerWrappers].forEach((wrapper, index) => {
-      this.removePlayers[index] = initializePlayer(wrapper, this._level.answers[index].path);
+        this.removePlayers[index] = initializePlayer(wrapper, this.question.answers[index].src);
     });
 
-    this.removeTimer = initializeCountdown(this.element, (COUNT_GAME_TIME - this.state.time), COUNT_GAME_TIME);
+    //this.removeTimer = initializeCountdown(this.element, (gameConstans.COUNT_GAME_TIME - this.state.time), gameConstans.COUNT_GAME_TIME);
 
     this._sendAnswerButton.addEventListener(`click`, this.handleAnswer.bind(this));
   }
 
   unbind() {
     this._sendAnswerButton.removeEventListener(`click`, this.handleAnswer.bind(this));
-    this.removeTimer();
+    //this.removeTimer();
     this.removePlayers.forEach((item, index) => {
       item();
     });
@@ -89,7 +89,7 @@ export default class GenreLevelView extends AbstractView {
       let minutes = timer.querySelector(`.timer-value-mins`).textContent;
       let secundes = timer.querySelector(`.timer-value-secs`).textContent;
       let time = (parseInt(minutes, 10) * 60) + parseInt(secundes, 10);
-      this.state = setTime(this.state, time);
+      this.state = ManageState.setTime(this.state, time);
 
       this.onAnswer(isRightAnswer);
       [...checkedAnswers].forEach((item) => {
