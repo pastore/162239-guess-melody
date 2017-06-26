@@ -1,4 +1,4 @@
-﻿const animations = {
+const animations = {
   getAnimation: (step, stepDuration, steps) => ({
     step, stepDuration, steps
   }),

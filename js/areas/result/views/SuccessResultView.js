@@ -1,5 +1,5 @@
-﻿import BaseView from '../../../core/BaseView';
-import { getStatistics } from '../../../core/statistics';
+import BaseView from '../../../core/BaseView';
+import {getStatistics} from '../../../core/statistics';
 import gameConstans from '../../../core/types/gameConstans';
 
 export default class SuccessResultView extends BaseView {

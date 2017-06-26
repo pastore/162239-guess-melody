@@ -1,5 +1,6 @@
-﻿const controllerType = {
-    WELCOME: ``,
-    GAME: `game`
+const controllerType = {
+  WELCOME: ``,
+  GAME: `game`
 };
+
 export default controllerType;

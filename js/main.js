@@ -1,6 +1,6 @@
-﻿import WelcomeController from './areas/welcome/WelcomeController';
+import WelcomeController from './areas/welcome/WelcomeController';
 import GameController from './areas/game/GameController';
-import BaseModel from './core/BaseModel'; 
+import BaseModel from './core/BaseModel';
 import controllerType from './core/types/controllerType';
 
 const getContollerTypeFromHash = (hash) => hash.replace(`#`, ``);
@@ -9,18 +9,18 @@ class App {
   constructor() {
     this.model = new class extends BaseModel {
       get urlRead() {
-          return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/questions`;
+        return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/questions`;
       }
 
       get urlWrite() {
-          return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/`;
+        return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/`;
       }
     }();
     this.model
-        .load()
-        .then((data) => this.setup(data))
-        .then(() => this.changeController(getContollerTypeFromHash(location.hash)))
-        .catch(window.console.error);
+      .load()
+      .then((data) => this.setup(data))
+      .then(() => this.changeController(getContollerTypeFromHash(location.hash)))
+      .catch(window.console.error);
   }
 
   setup(data) {

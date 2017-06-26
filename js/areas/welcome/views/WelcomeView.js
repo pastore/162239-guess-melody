@@ -1,4 +1,4 @@
-﻿import BaseView from '../../../core/BaseView';
+import BaseView from '../../../core/BaseView';
 
 export default class WelcomeView extends BaseView {
   get template() {

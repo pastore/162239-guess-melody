@@ -1,4 +1,4 @@
-﻿import BaseView from '../../../core/BaseView';
+import BaseView from '../../../core/BaseView';
 
 export default class FailResultView extends BaseView {
   constructor(state) {

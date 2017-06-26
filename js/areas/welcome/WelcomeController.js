@@ -1,4 +1,4 @@
-﻿import changeView from '../../utils/changeView';
+import changeView from '../../utils/changeView';
 import WelcomeView from './views/WelcomeView';
 import App from '../../main';
 import controllerType from '../../core/types/controllerType';

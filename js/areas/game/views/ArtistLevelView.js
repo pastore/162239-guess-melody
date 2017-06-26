@@ -1,7 +1,7 @@
-﻿import BaseView from '../../../core/BaseView';
+import BaseView from '../../../core/BaseView';
 import ManageState from '../../../core/state';
 import gameConstans from '../../../core/types/gameConstans';
-import initializeCountdown, {addLeadingZero} from '../../../timer';
+import {addLeadingZero} from '../../../timer';
 import initializePlayer from '../../../player';
 
 export default class ArtistLevelView extends BaseView {
@@ -61,13 +61,13 @@ export default class ArtistLevelView extends BaseView {
     this._player = this.element.querySelector(`.player-wrapper`);
 
     this._removePlayer = initializePlayer(this._player, this.question.src);
-    //this._removeTimer = initializeCountdown(this.element, (gameConstans.COUNT_GAME_TIME - this.state.time), gameConstans.COUNT_GAME_TIME);
+    // this._removeTimer = initializeCountdown(this.element, (gameConstans.COUNT_GAME_TIME - this.state.time), gameConstans.COUNT_GAME_TIME);
     this._answerButtonsWrapper.addEventListener(`click`, this.handleAnswer.bind(this));
   }
 
   unbind() {
     this._answerButtonsWrapper.removeEventListener(`click`, this.handleAnswer.bind(this));
-    //this._removeTimer();
+    // this._removeTimer();
     this._removePlayer();
   }
 

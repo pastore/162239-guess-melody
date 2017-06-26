@@ -1,4 +1,4 @@
-﻿import ManageState, {initialState} from '../../core/state';
+import ManageState, {initialState} from '../../core/state';
 import ArtistLevelView from './views/ArtistLevelView';
 import GenreLevelView from './views/GenreLevelView';
 import SuccessResultView from '../result/views/SuccessResultView';
@@ -10,23 +10,23 @@ import changeView from '../../utils/changeView';
 import initializeCountdown from '../../timer';
 
 export default class GameController {
-    constructor(model, state = initialState) {
-      this.model = model;
-      this.state = state;
-      this.setLevelView();
+  constructor(model, state = initialState) {
+    this.model = model;
+    this.state = state;
+    this.setLevelView();
   }
 
   init() {
     this._removeTimer = initializeCountdown(this.view.element, (gameConstans.COUNT_GAME_TIME - this.state.time), gameConstans.COUNT_GAME_TIME, this.fail.bind(this));
     changeView(this.view);
-   
+
     this.view.onAnswer = (answer) => {
       this.view.unbind();
       this.state = ManageState.setTime(this.state, this.view.state.time);
       this.state = ManageState.addPassedLevel(this.state);
       const result = this.getResult(answer);
 
-      switch (result){
+      switch (result) {
         case resultType.SUCCESS:
           this.view = new SuccessResultView(this.state);
           this.view.onRepeat = this.onRepeat.bind(this);
@@ -46,11 +46,10 @@ export default class GameController {
   }
 
   getResult(answer) {
-    if (answer === "true"){
-      if (this.state.time === gameConstans.TIME_GAME_OVER){
+    if (answer === `true`) {
+      if (this.state.time === gameConstans.TIME_GAME_OVER) {
         return resultType.FAIL;
-      }
-      else {
+      } else {
         if (this.state.countPassedLevels === gameConstans.COUNT_GAME_LEVELS) {
           return resultType.SUCCESS;
         } else {
@@ -60,8 +59,7 @@ export default class GameController {
     } else {
       if (this.state.time === gameConstans.TIME_GAME_OVER) {
         return resultType.FAIL;
-      }
-      else {
+      } else {
         let tempLives = this.state.lives - 1;
         this.state = ManageState.setLives(this.state, tempLives);
         if (this.state.lives === gameConstans.COUNT_LIVES_GAME_OVER) {
@@ -79,7 +77,7 @@ export default class GameController {
     this.setLevelView();
     this.init();
   }
-  
+
   setLevelView() {
     let question = this.model.getNextQuestion();
     switch (question.type) {

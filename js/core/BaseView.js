@@ -1,4 +1,4 @@
-﻿export default class BaseView {
+export default class BaseView {
   get template() {
     throw new Error(`You have to define template for view`);
   }

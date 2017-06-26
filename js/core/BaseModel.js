@@ -1,4 +1,4 @@
-﻿const _currentIndex = Symbol();
+const _currentIndex = Symbol();
 
 export default class BaseModel {
   constructor() {
@@ -18,7 +18,7 @@ export default class BaseModel {
     return fetch(this.urlRead)
       .then((response) => {
         return response.json();
-    });
+      });
   }
 
   shuffle() {
@@ -29,10 +29,10 @@ export default class BaseModel {
   }
 
   getNextQuestion() {
-    if (this[_currentIndex] === this.questions.length){
+    if (this[_currentIndex] === this.questions.length) {
       this[_currentIndex] = 0;
     }
-    const next = this[_currentIndex]++;;
+    const next = this[_currentIndex]++;
     return this.questions[next];
   }
 }

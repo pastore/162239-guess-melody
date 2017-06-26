@@ -1,11 +1,11 @@
-﻿import BaseView from '../../../core/BaseView';
+import BaseView from '../../../core/BaseView';
 import ManageState from '../../../core/state';
 import gameConstans from '../../../core/types/gameConstans';
-import initializeCountdown, {addLeadingZero} from '../../../timer';
+import {addLeadingZero} from '../../../timer';
 import initializePlayer from '../../../player';
 
 export default class GenreLevelView extends BaseView {
-    constructor(state, question) {
+  constructor(state, question) {
     super();
     this.state = state;
     this.question = question;
@@ -44,7 +44,7 @@ export default class GenreLevelView extends BaseView {
   }
 
   createGenreAnswers(question) {
-      return question.answers.map((answer) => {
+    return question.answers.map((answer) => {
       let randomId = Math.random().toString(36).substr(2, 9);
       return `<div class="genre-answer">
       <div class="player-wrapper"></div>
@@ -59,17 +59,17 @@ export default class GenreLevelView extends BaseView {
     this._palyerWrappers = this.element.querySelectorAll(`.player-wrapper`);
     this.removePlayers = [];
     [...this._palyerWrappers].forEach((wrapper, index) => {
-        this.removePlayers[index] = initializePlayer(wrapper, this.question.answers[index].src);
+      this.removePlayers[index] = initializePlayer(wrapper, this.question.answers[index].src);
     });
 
-    //this.removeTimer = initializeCountdown(this.element, (gameConstans.COUNT_GAME_TIME - this.state.time), gameConstans.COUNT_GAME_TIME);
+    // this.removeTimer = initializeCountdown(this.element, (gameConstans.COUNT_GAME_TIME - this.state.time), gameConstans.COUNT_GAME_TIME);
 
     this._sendAnswerButton.addEventListener(`click`, this.handleAnswer.bind(this));
   }
 
   unbind() {
     this._sendAnswerButton.removeEventListener(`click`, this.handleAnswer.bind(this));
-    //this.removeTimer();
+    // this.removeTimer();
     this.removePlayers.forEach((item, index) => {
       item();
     });
