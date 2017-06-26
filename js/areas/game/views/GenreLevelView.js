@@ -1,4 +1,4 @@
-import BaseView from '../../../core/BaseView';
+﻿import BaseView from '../../../core/BaseView';
 import ManageState from '../../../core/state';
 import gameConstans from '../../../core/types/gameConstans';
 import {addLeadingZero} from '../../../timer';
@@ -62,14 +62,11 @@ export default class GenreLevelView extends BaseView {
       this.removePlayers[index] = initializePlayer(wrapper, this.question.answers[index].src);
     });
 
-    // this.removeTimer = initializeCountdown(this.element, (gameConstans.COUNT_GAME_TIME - this.state.time), gameConstans.COUNT_GAME_TIME);
-
     this._sendAnswerButton.addEventListener(`click`, this.handleAnswer.bind(this));
   }
 
   unbind() {
     this._sendAnswerButton.removeEventListener(`click`, this.handleAnswer.bind(this));
-    // this.removeTimer();
     this.removePlayers.forEach((item, index) => {
       item();
     });

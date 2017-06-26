@@ -1,4 +1,4 @@
-import WelcomeController from './areas/welcome/WelcomeController';
+﻿import WelcomeController from './areas/welcome/WelcomeController';
 import GameController from './areas/game/GameController';
 import BaseModel from './core/BaseModel';
 import controllerType from './core/types/controllerType';
@@ -13,11 +13,11 @@ class App {
       }
 
       get urlWrite() {
-        return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/`;
+        return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/stats/id162239`;
       }
     }();
     this.model
-      .load()
+      .load(this.model.urlRead)
       .then((data) => this.setup(data))
       .then(() => this.changeController(getContollerTypeFromHash(location.hash)))
       .catch(window.console.error);

@@ -1,4 +1,4 @@
-import levelType from './types/levelType';
+﻿import levelType from './types/levelType';
 
 export const initialState = {
   level: levelType.Artist,
@@ -30,7 +30,8 @@ class ManageState {
   }
 
   setPoints(state, points) {
-    return Object.assign({}, state, {points});
+    const tempPoints = state.points + points;
+    return Object.assign({}, state, {points: tempPoints});
   }
 }
 
