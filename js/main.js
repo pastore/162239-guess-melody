@@ -1,18 +1,33 @@
 import WelcomeController from './areas/welcome/WelcomeController';
 import GameController from './areas/game/GameController';
+import BaseModel from './core/BaseModel';
+import controllerType from './core/types/controllerType';
 
-const ControllerType = {
-  WELCOME: ``,
-  GAME: `game`
-};
-export {ControllerType};
 const getContollerTypeFromHash = (hash) => hash.replace(`#`, ``);
 
 class App {
   constructor() {
+    this.model = new class extends BaseModel {
+      get urlRead() {
+        return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/questions`;
+      }
+
+      get urlWrite() {
+        return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/`;
+      }
+    }();
+    this.model
+      .load()
+      .then((data) => this.setup(data))
+      .then(() => this.changeController(getContollerTypeFromHash(location.hash)))
+      .catch(window.console.error);
+  }
+
+  setup(data) {
+    this.model.questions = data;
     this.routes = {
-      [ControllerType.WELCOME]: WelcomeController,
-      [ControllerType.GAME]: GameController
+      [controllerType.WELCOME]: new WelcomeController(),
+      [controllerType.GAME]: new GameController(this.model)
     };
     window.onhashchange = () => {
       this.changeController(getContollerTypeFromHash(location.hash));
@@ -20,8 +35,7 @@ class App {
   }
 
   changeController(route = ``) {
-    let Controller = this.routes[route];
-    new Controller().init();
+    this.routes[route].init();
   }
 
   changeHash(hash) {
@@ -34,7 +48,6 @@ class App {
 }
 
 const app = new App();
-app.init();
 
 export default app;
 

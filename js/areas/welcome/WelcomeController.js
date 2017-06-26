@@ -1,6 +1,7 @@
 import changeView from '../../utils/changeView';
 import WelcomeView from './views/WelcomeView';
-import App, {ControllerType} from '../../main';
+import App from '../../main';
+import controllerType from '../../core/types/controllerType';
 
 export default class WelcomeController {
   constructor() {
@@ -11,7 +12,7 @@ export default class WelcomeController {
     changeView(this.view);
 
     this.view.onStart = () => {
-      App.changeHash(ControllerType.GAME);
+      App.changeHash(controllerType.GAME);
     };
   }
 }
