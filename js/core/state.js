@@ -1,4 +1,4 @@
-﻿import levelType from './types/levelType';
+import levelType from './types/levelType';
 
 export const initialState = {
   level: levelType.Artist,

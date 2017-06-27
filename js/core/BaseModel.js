@@ -1,4 +1,4 @@
-﻿const _currentIndex = Symbol();
+const _currentIndex = Symbol();
 
 export default class BaseModel {
   constructor() {
@@ -22,14 +22,14 @@ export default class BaseModel {
   }
 
   send(data, adapter) {
-      const requestSettings = {
-          body: adapter.toServer(data),
-          headers: {
-              'Content-Type': `application/json`
-          },
-          method: `POST`
-      };
-      return fetch(this.urlWrite, requestSettings);
+    const requestSettings = {
+      body: adapter.toServer(data),
+      headers: {
+        'Content-Type': `application/json`
+      },
+      method: `POST`
+    };
+    return fetch(this.urlWrite, requestSettings);
   }
 
   shuffle() {

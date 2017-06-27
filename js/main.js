@@ -1,4 +1,4 @@
-﻿import WelcomeController from './areas/welcome/WelcomeController';
+import WelcomeController from './areas/welcome/WelcomeController';
 import GameController from './areas/game/GameController';
 import BaseModel from './core/BaseModel';
 import controllerType from './core/types/controllerType';

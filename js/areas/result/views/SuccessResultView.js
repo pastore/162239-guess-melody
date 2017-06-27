@@ -1,12 +1,9 @@
-﻿import BaseView from '../../../core/BaseView';
-import {getStatistics} from '../../../core/statistics';
+import BaseView from '../../../core/BaseView';
 import gameConstans from '../../../core/types/gameConstans';
-import App from '../../../main';
 
 export default class SuccessResultView extends BaseView {
-    constructor(statistics) {
-        super();
-        debugger;
+  constructor(statistics) {
+    super();
     this.statistics = statistics;
     this.lastStat = this.statistics[this.statistics.length - 1];
   }
@@ -34,17 +31,17 @@ export default class SuccessResultView extends BaseView {
   formatStatistics() {
     this.statistics.sort((a, b) => {
       if (b.answers > a.answers) {
-          return 1;
+        return 1;
       } else if (b.answers < a.answers) {
-          return -1;
+        return -1;
       }
 
       if (b.time < a.time) {
-          return 1;
+        return 1;
       } else if (b.time > a.time) {
-          return -1;
+        return -1;
       } else {
-          return 0;
+        return 0;
       }
     });
     return Math.floor(((this.statistics.length - 1) - this.statistics.indexOf(this.lastStat)) * (100 / this.statistics.length));

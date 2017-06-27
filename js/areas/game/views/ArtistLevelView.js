@@ -1,4 +1,4 @@
-﻿import BaseView from '../../../core/BaseView';
+import BaseView from '../../../core/BaseView';
 import ManageState from '../../../core/state';
 import gameConstans from '../../../core/types/gameConstans';
 import {addLeadingZero} from '../../../timer';
