@@ -88,16 +88,23 @@ export default class GameController {
           this.view = new GenreLevelView(this.state, question);
           break;
       }
+      this.state = ManageState.setNextLevel(this.state, question.type);
     }
 
     success() {
       this.state = ManageState.setPoints(this.state, (this._prevTimeAnswer - this.state.time) < gameConstans.TIME_DOUBLE_POINTS ? pointType.DOUBLE : pointType.ONE);
       this.model.send(this.state, GameAdapter).then(() => {
-        this.view = new SuccessResultView();
-        this.view.onRepeat = this.onRepeat.bind(this);
-        this._removeTimer();
-        this._prevTimeAnswer = 0;
-        changeView(this.view);
+        this.model
+          .load(this.model.urlWrite)
+          .then((data) => {
+            this.view = new SuccessResultView(data.slice(4));
+            this.view.onRepeat = this.onRepeat.bind(this);
+            this._removeTimer();
+            this._prevTimeAnswer = gameConstans.COUNT_GAME_TIME;
+          })
+          .then(() => {
+            changeView(this.view);
+          });
       });
     }
 
@@ -105,7 +112,7 @@ export default class GameController {
       this.view = new FailResultView(this.state);
       this.view.onRepeat = this.onRepeat.bind(this);
       this._removeTimer();
-      this._prevTimeAnswer = 0;
+      this._prevTimeAnswer = gameConstans.COUNT_GAME_TIME;
       changeView(this.view);
     }
 
@@ -113,7 +120,6 @@ export default class GameController {
       this.state = ManageState.setPoints(this.state, (this._prevTimeAnswer - this.state.time) < gameConstans.TIME_DOUBLE_POINTS ? pointType.DOUBLE : pointType.ONE);
       this._removeTimer();
       this._prevTimeAnswer = this.state.time;
-      this.state = ManageState.setNextLevel(this.state);
       this.setLevelView();
       this.init();
     }

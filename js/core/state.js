@@ -9,8 +9,7 @@ export const initialState = {
 };
 
 class ManageState {
-  setNextLevel(state) {
-    const level = state.level === levelType.Artist ? levelType.Genre : levelType.Artist;
+  setNextLevel(state, level) {
     return Object.assign({}, state, {level});
   }
 

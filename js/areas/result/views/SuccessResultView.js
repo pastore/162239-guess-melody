@@ -4,19 +4,18 @@ import gameConstans from '../../../core/types/gameConstans';
 import App from '../../../main';
 
 export default class SuccessResultView extends BaseView {
-  constructor() {
-    super();
-    App.model.load(App.model.urlWrite).then((data) => {
-        this.statistics = data.slice(4);
-        this.myStat = this.statistics[this.statistics.length - 1];
-    });
+    constructor(statistics) {
+        super();
+        debugger;
+    this.statistics = statistics;
+    this.lastStat = this.statistics[this.statistics.length - 1];
   }
   get template() {
     return `<section class="main main--result">
       ${this.logoTemplate()}
       <h2 class="title">Вы настоящий меломан!</h2>
-      <div class="main-stat">За&nbsp;${gameConstans.COUNT_GAME_TIME - this.myStat.time}&nbsp;секунд<br>вы&nbsp;отгадали ${this.myStat.answers}&nbsp;мелодии</div>
-      <span class="main-comparison">Это&nbsp;лучше чем у&nbsp;${formatStatistics()}%&nbsp;игроков</span>
+      <div class="main-stat">За&nbsp;${gameConstans.COUNT_GAME_TIME - this.lastStat.time}&nbsp;секунд<br>вы&nbsp;набрали ${this.lastStat.answers}&nbsp;балов</div>
+      <span class="main-comparison">Это&nbsp;лучше чем у&nbsp;${this.formatStatistics()}%&nbsp;игроков</span>
       <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
     </section>`;
   }
@@ -48,7 +47,7 @@ export default class SuccessResultView extends BaseView {
           return 0;
       }
     });
-    return Math.floor(((this.statistics.length - 1) - this.statistics.indexOf(this.myStat)) * (100 / this.statistics.length));
+    return Math.floor(((this.statistics.length - 1) - this.statistics.indexOf(this.lastStat)) * (100 / this.statistics.length));
   }
 }
 
