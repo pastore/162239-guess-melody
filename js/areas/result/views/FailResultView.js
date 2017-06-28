@@ -1,4 +1,5 @@
 import BaseView from '../../../core/BaseView';
+import logoTemplate from '../../../templates/logoTemplate';
 
 export default class FailResultView extends BaseView {
   constructor(state) {
@@ -7,15 +8,11 @@ export default class FailResultView extends BaseView {
   }
   get template() {
     return `<section class="main main--result">
-      ${this.logoTemplate()}
+      ${logoTemplate()}
       <h2 class="title">Вы проиграли</h2>
       <div class="main-stat">Ничего, вам повезет в следующий раз</div>
       <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
     </section>`;
-  }
-
-  logoTemplate() {
-    return `<section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>`;
   }
 
   bind() {

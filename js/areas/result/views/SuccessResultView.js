@@ -1,24 +1,21 @@
 import BaseView from '../../../core/BaseView';
 import gameConstans from '../../../core/types/gameConstans';
+import logoTemplate from '../../../templates/logoTemplate';
 
 export default class SuccessResultView extends BaseView {
   constructor(statistics) {
     super();
-    this.statistics = statistics;
-    this.lastStat = this.statistics[this.statistics.length - 1];
+    this._statistics = statistics;
+    this._lastStat = this._statistics[this._statistics.length - 1];
   }
   get template() {
     return `<section class="main main--result">
-      ${this.logoTemplate()}
+      ${logoTemplate()}
       <h2 class="title">Вы настоящий меломан!</h2>
-      <div class="main-stat">За&nbsp;${gameConstans.COUNT_GAME_TIME - this.lastStat.time}&nbsp;секунд<br>вы&nbsp;набрали ${this.lastStat.answers}&nbsp;балов</div>
-      <span class="main-comparison">Это&nbsp;лучше чем у&nbsp;${this.formatStatistics()}%&nbsp;игроков</span>
+      <div class="main-stat">За&nbsp;${gameConstans.COUNT_GAME_TIME - this._lastStat.time}&nbsp;секунд<br>вы&nbsp;набрали ${this._lastStat.answers}&nbsp;балов</div>
+      <span class="main-comparison">Это&nbsp;лучше чем у&nbsp;${this._formatStatistics()}%&nbsp;игроков</span>
       <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
     </section>`;
-  }
-
-  logoTemplate() {
-    return `<section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>`;
   }
 
   bind() {
@@ -28,23 +25,19 @@ export default class SuccessResultView extends BaseView {
     });
   }
 
-  formatStatistics() {
-    this.statistics.sort((a, b) => {
-      if (b.answers > a.answers) {
-        return 1;
-      } else if (b.answers < a.answers) {
-        return -1;
-      }
-
-      if (b.time < a.time) {
-        return 1;
-      } else if (b.time > a.time) {
-        return -1;
-      } else {
-        return 0;
+  _formatStatistics() {
+    let countWorseResults = 0;
+    this._statistics.forEach((stat) => {
+      if (stat.answers < this._lastStat.answers) {
+        countWorseResults++;
+      } else if (stat.answers === this._lastStat.answers) {
+        if (stat.time < this._lastStat.time) {
+          countWorseResults++;
+        }
       }
     });
-    return Math.floor(((this.statistics.length - 1) - this.statistics.indexOf(this.lastStat)) * (100 / this.statistics.length));
+    return Math.floor((countWorseResults) * (100 / this._statistics.length));
   }
 }
+
 

@@ -9,6 +9,7 @@ import pointType from '../../core/types/pointType';
 import gameConstans from '../../core/types/gameConstans';
 import GameAdapter from '../../core/GameAdapter';
 import changeView from '../../utils/changeView';
+import shuffleArray from '../../utils/shuffleArray';
 import initializeCountdown from '../../timer';
 
 export default class GameController {
@@ -44,34 +45,29 @@ export default class GameController {
   }
 
   getResult(answer) {
-    if (answer) {
-      if (this.state.time === gameConstans.TIME_GAME_OVER) {
-        return resultType.FAIL;
+    if (this.state.time === gameConstans.TIME_GAME_OVER) {
+      return resultType.FAIL;
+    }
+    if (answer === true) {
+      if (this.state.countPassedLevels === gameConstans.COUNT_GAME_LEVELS) {
+        return resultType.SUCCESS;
       } else {
-        if (this.state.countPassedLevels === gameConstans.COUNT_GAME_LEVELS) {
-          return resultType.SUCCESS;
-        } else {
-          return resultType.NEXT;
-        }
+        return resultType.NEXT;
       }
     } else {
-      if (this.state.time === gameConstans.TIME_GAME_OVER) {
+      let tempLives = this.state.lives - 1;
+      this.state = ManageState.setLives(this.state, tempLives);
+      if (this.state.lives === 0) {
         return resultType.FAIL;
       } else {
-        let tempLives = this.state.lives - 1;
-        this.state = ManageState.setLives(this.state, tempLives);
-        if (this.state.lives === gameConstans.COUNT_LIVES_GAME_OVER) {
-          return resultType.FAIL;
-        } else {
-          return resultType.NEXT;
-        }
+        return resultType.NEXT;
       }
     }
   }
 
   onRepeat() {
     this.state = Object.assign({}, initialState);
-    this.model.shuffle();
+    shuffleArray(this.model.questions);
     this.setLevelView();
     this.init();
   }
@@ -91,11 +87,11 @@ export default class GameController {
 
   success() {
     this.state = ManageState.setPoints(this.state, (this._prevTimeAnswer - this.state.time) < gameConstans.TIME_DOUBLE_POINTS ? pointType.DOUBLE : pointType.ONE);
-    this.model.send(this.state, GameAdapter).then(() => {
+    this.model.sendResult(this.state, GameAdapter).then(() => {
       this.model
-        .load(this.model.urlWrite)
+        .loadResults()
         .then((data) => {
-          this.view = new SuccessResultView(data.slice(4));
+          this.view = new SuccessResultView(data);
           this.view.onRepeat = this.onRepeat.bind(this);
           this._removeTimer();
           this._prevTimeAnswer = gameConstans.COUNT_GAME_TIME;

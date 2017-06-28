@@ -1,27 +1,28 @@
 const _currentIndex = Symbol();
 
-export default class BaseModel {
-  constructor() {
+export default class GameModel {
+  constructor(urlRead, urlWrite) {
     this[_currentIndex] = 0;
     this.questions = [];
+    this.urlRead = urlRead;
+    this.urlWrite = urlWrite;
   }
 
-  get urlRead() {
-    throw new Error(`Abstract method. Define the URL for model.`);
-  }
-
-  get urlWrite() {
-    throw new Error(`Abstract method. Define the URL for model.`);
-  }
-
-  load(url) {
-    return fetch(url)
+  loadQuestions() {
+    return fetch(this.urlRead)
       .then((response) => {
         return response.json();
       });
   }
 
-  send(data, adapter) {
+  loadResults() {
+    return fetch(this.urlWrite)
+      .then((response) => {
+        return response.json();
+      });
+  }
+
+  sendResult(data, adapter) {
     const requestSettings = {
       body: adapter.toServer(data),
       headers: {
@@ -32,13 +33,6 @@ export default class BaseModel {
     return fetch(this.urlWrite, requestSettings);
   }
 
-  shuffle() {
-    for (let i = this.questions.length; i; i--) {
-      let j = Math.floor(Math.random() * i);
-      [this.questions[i - 1], this.questions[j]] = [this.questions[j], this.questions[i - 1]];
-    }
-  }
-
   getNextQuestion() {
     if (this[_currentIndex] === this.questions.length) {
       this[_currentIndex] = 0;
@@ -47,3 +41,4 @@ export default class BaseModel {
     return this.questions[next];
   }
 }
+
