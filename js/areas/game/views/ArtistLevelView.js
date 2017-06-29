@@ -13,15 +13,13 @@ export default class ArtistLevelView extends BaseView {
   get template() {
     return `<section class="main main--level main--level-artist">
     ${timerTemplate(this.state.time)}
-
     <div class="main-wrap">
-    <div class="main-timer"></div>
-
-    <h2 class="title main-title">${this.question.question}</h2>
-    <div class="player-wrapper"></div>
-    <form class="main-list">
-      ${this._createArtistAnswers(this.question)}
-    </form>
+      <div class="main-timer"></div>
+      <h2 class="title main-title">${this.question.question}</h2>
+      <div class="player-wrapper"></div>
+      <form class="main-list">
+        ${this._createArtistAnswers(this.question)}
+      </form>
     </div>
     </section>`;
   }
@@ -55,9 +53,9 @@ export default class ArtistLevelView extends BaseView {
     const itemValue = event.target.dataset.answer;
     if (event.target.tagName.toLowerCase() === `img`) {
       const timer = document.querySelector(`.timer-value`);
-      let minutes = timer.querySelector(`.timer-value-mins`).textContent;
-      let secundes = timer.querySelector(`.timer-value-secs`).textContent;
-      let time = (parseInt(minutes, 10) * 60) + parseInt(secundes, 10);
+      const minutes = timer.querySelector(`.timer-value-mins`).textContent;
+      const secundes = timer.querySelector(`.timer-value-secs`).textContent;
+      const time = (parseInt(minutes, 10) * 60) + parseInt(secundes, 10);
       this.state = ManageState.setTime(this.state, time);
 
       this.onAnswer(itemValue === `true`);

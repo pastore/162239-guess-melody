@@ -9,18 +9,18 @@ export default class GenreLevelView extends BaseView {
     this.state = state;
     this.question = question;
   }
+
   get template() {
     return `<section class="main main--level main--level-genre">
      ${timerTemplate(this.state.time)}
-
     <div class="main-wrap">
-    <div class="main-timer"></div>
-
-    <h2 class="title">${this.question.question}</h2>
-    <form class="genre">
-      ${this._createGenreAnswers(this.question)}
-      <button class="genre-answer-send" type="submit">Ответить</button>
-    </form>
+      <div class="main-timer"></div>
+      <h2 class="title">${this.question.question}</h2>
+      <form class="genre">
+        ${this._createGenreAnswers(this.question)}
+        <button class="genre-answer-send" type="submit">Ответить</button>
+      </form>
+    <div>
     </section>`;
   }
 
@@ -44,7 +44,7 @@ export default class GenreLevelView extends BaseView {
 
   _createGenreAnswers(question) {
     return question.answers.map((answer) => {
-      let randomId = Math.random().toString(36).substr(2, 9);
+      const randomId = Math.random().toString(36).substr(2, 9);
       return `<div class="genre-answer">
         <div class="player-wrapper"></div>
         <input type="checkbox" name="answer" value="${answer.genre === question.genre}" id="a-${randomId}">
@@ -56,17 +56,16 @@ export default class GenreLevelView extends BaseView {
   _handleAnswer(event) {
     event.preventDefault();
     const checkedAnswers = document.querySelectorAll(`input[name='answer']:checked`);
-    let isRightAnswer = false;
 
     if (checkedAnswers.length > 0) {
-      isRightAnswer = [...checkedAnswers].every(function (input) {
+      const isRightAnswer = [...checkedAnswers].every(function (input) {
         return input.value === `true`;
       });
 
       const timer = document.querySelector(`.timer-value`);
-      let minutes = timer.querySelector(`.timer-value-mins`).textContent;
-      let secundes = timer.querySelector(`.timer-value-secs`).textContent;
-      let time = (parseInt(minutes, 10) * 60) + parseInt(secundes, 10);
+      const minutes = timer.querySelector(`.timer-value-mins`).textContent;
+      const secundes = timer.querySelector(`.timer-value-secs`).textContent;
+      const time = (parseInt(minutes, 10) * 60) + parseInt(secundes, 10);
       this.state = ManageState.setTime(this.state, time);
 
       this.onAnswer(isRightAnswer);

@@ -6,6 +6,7 @@ export default class FailResultView extends BaseView {
     super();
     this.state = state;
   }
+
   get template() {
     return `<section class="main main--result">
       ${logoTemplate()}

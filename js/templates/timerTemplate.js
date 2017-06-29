@@ -14,12 +14,11 @@ const timerTemplate = (time) => {
     cx="390" cy="390" r="370"
     class="timer-line"
     style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center" stroke-dasharray=${length.toString()} stroke-dashoffset=${lengthToClear.toString()}></circle>
-
-  <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-    <span class="timer-value-mins">${addLeadingZero(minutes)}</span><!--
-    --><span class="timer-value-dots">:</span><!--
-    --><span class="timer-value-secs">${addLeadingZero(secundes)}</span>
-  </div>
+    <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
+      <span class="timer-value-mins">${addLeadingZero(minutes)}</span><!--
+      --><span class="timer-value-dots">:</span><!--
+      --><span class="timer-value-secs">${addLeadingZero(secundes)}</span>
+    </div>
   </svg>`;
 };
 

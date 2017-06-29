@@ -17,6 +17,13 @@ const switchState = (state, player, element) => {
     state.stopAnimation = animations.animate(
         animations.getAnimation(player.currentTime, 1000, player.duration),
         (animation) => updateState(element, player));
+
+    const audios = document.getElementsByTagName(`audio`);
+    for (const audio of [...audios]) {
+      if (audio !== player) {
+        audio.pause();
+      }
+    }
   } else {
     player.pause();
     state.stopAnimation();
