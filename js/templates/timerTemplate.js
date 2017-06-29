@@ -2,8 +2,8 @@ import {addLeadingZero} from '../timer';
 import gameConstans from '../core/types/gameConstans';
 
 const timerTemplate = (time) => {
-  let minutes = Math.floor(time / 60);
-  let secundes = time % 60;
+  const minutes = Math.floor(time / 60);
+  const secundes = time % 60;
 
   const length = 2 * Math.PI * 370;
   const stepLength = length / gameConstans.COUNT_GAME_TIME;

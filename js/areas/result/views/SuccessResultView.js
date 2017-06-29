@@ -26,7 +26,7 @@ export default class SuccessResultView extends BaseView {
   }
 
   _formatStatistics() {
-    let countWorseResults = this._statistics.reduce((count, current) => {
+    const countWorseResults = this._statistics.reduce((count, current) => {
       if (current.answers < this._lastStat.answers) {
         return ++count;
       } else if (current.answers === this._lastStat.answers && current.time < this._lastStat.time) {

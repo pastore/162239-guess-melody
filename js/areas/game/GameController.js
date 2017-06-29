@@ -88,7 +88,7 @@ export default class GameController {
         return resultType.NEXT;
       }
     } else {
-      let tempLives = this.state.lives - 1;
+      const tempLives = this.state.lives - 1;
       this.state = ManageState.setLives(this.state, tempLives);
       if (this.state.lives === 0) {
         return resultType.FAIL;
@@ -106,7 +106,7 @@ export default class GameController {
   }
 
   _setLevelView() {
-    let question = this.model.getNextQuestion();
+    const question = this.model.getNextQuestion();
     switch (question.type) {
       case levelType.Artist:
         this.view = new ArtistLevelView(this.state, question);
