@@ -1,4 +1,4 @@
-﻿import {addLeadingZero} from '../timer';
+import {addLeadingZero} from '../timer';
 import gameConstans from '../core/types/gameConstans';
 
 const timerTemplate = (time) => {

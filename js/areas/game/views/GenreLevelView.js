@@ -1,4 +1,4 @@
-﻿import BaseView from '../../../core/BaseView';
+import BaseView from '../../../core/BaseView';
 import ManageState from '../../../core/state';
 import initializePlayer from '../../../player';
 import timerTemplate from '../../../templates/timerTemplate';
@@ -58,7 +58,7 @@ export default class GenreLevelView extends BaseView {
     const checkedAnswers = document.querySelectorAll(`input[name='answer']:checked`);
 
     if (checkedAnswers.length > 0) {
-        const isRightAnswer = Array.from(checkedAnswers).every(function (input) {
+      const isRightAnswer = Array.from(checkedAnswers).every(function (input) {
         return input.value === `true`;
       });
 
