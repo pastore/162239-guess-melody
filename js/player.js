@@ -19,7 +19,7 @@ const switchState = (state, player, element) => {
         (animation) => updateState(element, player));
 
     const audios = document.getElementsByTagName(`audio`);
-    for (const audio of [...audios]) {
+    for (const audio of Array.from(audios)) {
       if (audio !== player) {
         audio.pause();
       }

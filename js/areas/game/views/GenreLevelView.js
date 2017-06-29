@@ -1,4 +1,4 @@
-import BaseView from '../../../core/BaseView';
+﻿import BaseView from '../../../core/BaseView';
 import ManageState from '../../../core/state';
 import initializePlayer from '../../../player';
 import timerTemplate from '../../../templates/timerTemplate';
@@ -28,7 +28,7 @@ export default class GenreLevelView extends BaseView {
     this._sendAnswerButton = this.element.querySelector(`.genre-answer-send`);
     this._palyerWrappers = this.element.querySelectorAll(`.player-wrapper`);
     this.removePlayers = [];
-    [...this._palyerWrappers].forEach((wrapper, index) => {
+    Array.from(this._palyerWrappers).forEach((wrapper, index) => {
       this.removePlayers[index] = initializePlayer(wrapper, this.question.answers[index].src);
     });
 
@@ -58,7 +58,7 @@ export default class GenreLevelView extends BaseView {
     const checkedAnswers = document.querySelectorAll(`input[name='answer']:checked`);
 
     if (checkedAnswers.length > 0) {
-      const isRightAnswer = [...checkedAnswers].every(function (input) {
+        const isRightAnswer = Array.from(checkedAnswers).every(function (input) {
         return input.value === `true`;
       });
 
@@ -69,7 +69,7 @@ export default class GenreLevelView extends BaseView {
       this.state = ManageState.setTime(this.state, time);
 
       this.onAnswer(isRightAnswer);
-      [...checkedAnswers].forEach((item) => {
+      Array.from(checkedAnswers).forEach((item) => {
         item.checked = false;
       });
     }
