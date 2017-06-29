@@ -26,18 +26,14 @@ export default class SuccessResultView extends BaseView {
   }
 
   _formatStatistics() {
-    let countWorseResults = 0;
-    this._statistics.forEach((stat) => {
-      if (stat.answers < this._lastStat.answers) {
-        countWorseResults++;
-      } else if (stat.answers === this._lastStat.answers) {
-        if (stat.time < this._lastStat.time) {
-          countWorseResults++;
-        }
+    let countWorseResults = this._statistics.reduce((count, current) => {
+      if (current.answers < this._lastStat.answers) {
+        return ++count;
+      } else if (current.answers === this._lastStat.answers && current.time < this._lastStat.time) {
+        return ++count;
       }
-    });
+      return count;
+    }, 0);
     return Math.floor((countWorseResults) * (100 / this._statistics.length));
   }
 }
-
-

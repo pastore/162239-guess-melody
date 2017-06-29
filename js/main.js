@@ -8,7 +8,7 @@ const getContollerTypeFromHash = (hash) => hash.replace(`#`, ``);
 class App {
   constructor() {
     this.model = new GameModel(`https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/questions`,
-                                `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/stats/id162239`);
+      `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/stats/id162239`);
     this.model
       .loadQuestions()
       .then((data) => this.setup(data))

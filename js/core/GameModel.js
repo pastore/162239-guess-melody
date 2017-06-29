@@ -4,19 +4,19 @@ export default class GameModel {
   constructor(urlRead, urlWrite) {
     this[_currentIndex] = 0;
     this.questions = [];
-    this.urlRead = urlRead;
-    this.urlWrite = urlWrite;
+    this._urlRead = urlRead;
+    this._urlWrite = urlWrite;
   }
 
   loadQuestions() {
-    return fetch(this.urlRead)
+    return fetch(this._urlRead)
       .then((response) => {
         return response.json();
       });
   }
 
   loadResults() {
-    return fetch(this.urlWrite)
+    return fetch(this._urlWrite)
       .then((response) => {
         return response.json();
       });
@@ -30,7 +30,7 @@ export default class GameModel {
       },
       method: `POST`
     };
-    return fetch(this.urlWrite, requestSettings);
+    return fetch(this._urlWrite, requestSettings);
   }
 
   getNextQuestion() {
