@@ -1,4 +1,4 @@
-export class DefaultAdapter {
+export default class DefaultAdapter {
   toServer(data) {
     return data;
   }
