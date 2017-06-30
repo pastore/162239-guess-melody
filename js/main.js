@@ -11,20 +11,9 @@ class App {
       `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/stats/id162239`);
     this.model
       .loadQuestions()
-      .then((data) => this.setup(data))
+      .then((data) => this._setup(data))
       .then(() => this.changeController(getContollerTypeFromHash(location.hash)))
       .catch(window.console.error);
-  }
-
-  setup(data) {
-    this.model.questions = data;
-    this.routes = {
-      [controllerType.WELCOME]: new WelcomeController(),
-      [controllerType.GAME]: new GameController(this.model)
-    };
-    window.onhashchange = () => {
-      this.changeController(getContollerTypeFromHash(location.hash));
-    };
   }
 
   changeController(route = ``) {
@@ -37,6 +26,17 @@ class App {
 
   init() {
     this.changeController(getContollerTypeFromHash(location.hash));
+  }
+
+  _setup(data) {
+    this.model.questions = data;
+    this.routes = {
+      [controllerType.WELCOME]: new WelcomeController(),
+      [controllerType.GAME]: new GameController(this.model)
+    };
+    window.onhashchange = () => {
+      this.changeController(getContollerTypeFromHash(location.hash));
+    };
   }
 }
 

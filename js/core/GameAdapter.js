@@ -1,10 +1,6 @@
-export class DeafultAdapter {
-  toServer(data) {
-    return data;
-  }
-}
+import DefaultAdapter from './DefaultAdapter';
 
-export default new class extends DeafultAdapter {
+export default new class extends DefaultAdapter {
   toServer(data) {
     return JSON.stringify({time: data.time, answers: data.points});
   }
